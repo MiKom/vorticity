@@ -8,10 +8,16 @@
 #define VORTICITY_UNAME		L"Vorticity"
 #define	VORTICITY_VERSION	"0.1.1"
 
-#ifdef VORTICITY_EXPORTS
-#define VAPI __declspec(dllexport)
+#if defined(_MSC_VER) || defined(__CYGWIN__) || defined(__MINGW32__) || defined( __BCPLUSPLUS__)  || defined( __MWERKS__)
+	#	ifdef VORTICITY_LIBRARY
+	#		define VAPI __declspec(dllexport)
+	#	elif VORTICITY_LIBRARY_STATIC
+	#		define VAPI
+	#	else
+	#   	define VAPI __declspec(dllimport)
+	#	endif
 #else
-#define VAPI __declspec(dllimport)
+	#	define VAPI
 #endif
 
 #ifndef _cg_h
@@ -27,9 +33,9 @@ typedef struct _CGcontext *CGcontext;
 #include "core/fonts.h"
 #include "core/application.h"
 #ifdef WIN32
-#include "platforms/win32/win32.h"
+	#include "platforms/win32/win32.h"
 #else
-#include "platforms/linux/linux.h"
+	#include "platforms/linux/linux.h"
 #endif
 
 #include "core/timer.h"

@@ -24,6 +24,6 @@
 #include <Cg/cg.h>
 #include <Cg/cgGL.h>
 
-#include "vorticity_base.h"
+#include <vorticity/vorticity_base.h>
 
 #endif

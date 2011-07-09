@@ -1,7 +1,7 @@
 #include "config.h"
-#include "render/opengl.h"
-#include "overlay/overlay.h"
-#include "overlay/gloverlay.h"
+#include "vorticity/render/opengl.h"
+#include "vorticity/overlay/overlay.h"
+#include "render/gloverlay.h"
 #include "console.h"
 #include "fontmanager.h"
 #include <mmsystem.h>
@@ -50,10 +50,10 @@ LRESULT CALLBACK Win32_Application::staticWindowProc(HWND hWnd, UINT uMsg, WPARA
 	if(uMsg == WM_CREATE)
 	{
 		thisApp = (Win32_Application*)((LPCREATESTRUCT)lParam)->lpCreateParams;
-		SetWindowLongPtr(hWnd, GWL_USERDATA, (LONG_PTR)thisApp);
+		SetWindowLongPtr(hWnd, GWLP_USERDATA, (LONG_PTR)thisApp);
 	}
 	else
-		thisApp = (Win32_Application*)GetWindowLongPtr(hWnd, GWL_USERDATA);
+		thisApp = (Win32_Application*)GetWindowLongPtr(hWnd, GWLP_USERDATA);
 
 	if(thisApp == NULL)
 		return DefWindowProc(hWnd, uMsg, wParam, lParam);

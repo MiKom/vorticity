@@ -1,12 +1,12 @@
 #include "config.h"
-#include "opengl.h"
-#include "sg/attribute.h"
-#include "sg/node.h"
-#include "resources/resource.h"
-#include "resources/shader.h"
-#include "resources/image.h"
-#include "overlay/overlay.h"
-#include "overlay/gloverlay.h"
+#include "vorticity/render/opengl.h"
+#include "vorticity/sg/attribute.h"
+#include "vorticity/sg/node.h"
+#include "vorticity/resources/resource.h"
+#include "vorticity/resources/shader.h"
+#include "vorticity/resources/image.h"
+#include "vorticity/overlay/overlay.h"
+#include "gloverlay.h"
 
 using namespace Vorticity;
 

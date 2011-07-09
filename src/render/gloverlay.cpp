@@ -1,5 +1,5 @@
 #include "config.h"
-#include "overlay.h"
+#include "vorticity/overlay/overlay.h"
 #include "gloverlay.h"
 
 using namespace Vorticity;

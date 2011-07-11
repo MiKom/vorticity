@@ -19,8 +19,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Vorticity.  If not, see <http://www.gnu.org/licenses/>.
  */
-#
-include "config.h"
+#include "config.h"
 #include "vorticity/io/iobase.h"
 #include "vorticity/resources/resource.h"
 #include "vorticity/resources/image.h"

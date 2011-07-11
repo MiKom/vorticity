@@ -1,15 +1,36 @@
-#include "config.h"
-#include "core/renderer.h"
-#include "resources/resource.h"
-#include "resources/shader.h"
+/* 
+ * Copyright © 2009, 2010 Micha³ Siejak
+ *
+ * All rights reserved.
+ * 
+ * This file is part of Vorticity.
+ *
+ * Vorticity is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Vorticity is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Vorticity.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
-#include "attribute.h"
-#include "node.h"
-#include "xnode.h"
-#include "object.h"
-#include "modifier.h"
-#include "node_camera.h"
-#include "vrender_simple.h"
+#include "config.h"
+#include "vorticity/core/renderer.h"
+#include "vorticity/resources/resource.h"
+#include "vorticity/resources/shader.h"
+
+#include "vorticity/sg/attribute.h"
+#include "vorticity/sg/node.h"
+#include "vorticity/sg/xnode.h"
+#include "vorticity/sg/object.h"
+#include "vorticity/sg/modifier.h"
+#include "vorticity/sg/node_camera.h"
+#include "vorticity/sg/vrender_simple.h"
 
 using namespace Vorticity;
 

@@ -1,5 +1,6 @@
 /* 
- * Copyright © 2009, 2010 Micha³ Siejak
+ * Copyright © 2010 Micha³ Siejak
+ * Copyright © 2010 Mi³osz Kosobucki
  *
  * All rights reserved.
  * 
@@ -19,23 +20,39 @@
  * along with Vorticity.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef __VORTICITY_NODE_DUMMY_H
-#define __VORTICITY_NODE_DUMMY_H
+#include "config.h"
+#include "vorticity/io/iobase.h"
+#include "vorticity/io/text_loader.h"
+#include "vorticity/resources/resource.h"
 
-namespace Vorticity {
+using namespace Vorticity;
 
-class VAPI NodeDummy : public Object
+TextLoader::TextLoader(const std::string& path) : FileReader(path)
 {
-public:
-	NodeDummy(const string& name, XNode *parent=NULL);
+}
 
-	virtual string getType() const
-	{ return "dummy"; }
+TextLoader::~TextLoader()
+{
+}
 
-	virtual void evaluate();
-	virtual void render(Renderer *device);
-};
+void TextLoader::read()
+{
+	TextResource *text = (TextResource*) getResource();
 
-} //Vorticity
+	size_t fileSize;
 
-#endif
+	std::ifstream::pos_type begin = file.tellg();
+	file.seekg(0, std::ios::end);
+	std::ifstream::pos_type end = file.tellg();
+	file.seekg(0, std::ios::beg);
+
+	fileSize = (size_t)(end - begin);
+
+	char *buf = new char[fileSize+1];
+
+	file.read(buf, fileSize);
+	buf[fileSize] = 0;
+	text->setText(buf);
+
+	delete[] buf;
+}

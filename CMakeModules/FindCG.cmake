@@ -8,6 +8,7 @@
 # CG_GL_LIBRARY = full path to libCgGL.so (CgGL.dll on win32)
 # CG_COMPILER = full path to cgc (cgc.exe on win32)
 # 
+# variable SYSTEM_PROCESSOR is set by include CMakeModules/DetermineProcessor.cmake
 
 # On OSX default to using the framework version of Cg.
 IF (APPLE)
@@ -72,8 +73,7 @@ ELSE (APPLE)
       ${CG_COMPILER_DIR}
       DOC "The directory where Cg/cg.h resides"
       )
-	
-	IF (NV_SYSTEM_PROCESSOR STREQUAL "x86_64")
+	IF (SYSTEM_PROCESSOR STREQUAL "x86_64")
       FIND_LIBRARY( CG_LIBRARY
         NAMES Cg
         PATHS
@@ -100,7 +100,7 @@ ELSE (APPLE)
         ${CG_COMPILER_DIR}
         DOC "The Cg GL runtime library (64-bit)"
         )
-	ELSE(NV_SYSTEM_PROCESSOR STREQUAL "x86_64")
+	ELSE(SYSTEM_PROCESSOR STREQUAL "x86_64")
       FIND_LIBRARY( CG_LIBRARY
         NAMES Cg
         PATHS
@@ -123,7 +123,7 @@ ELSE (APPLE)
         ${CG_COMPILER_DIR}
         DOC "The Cg GL runtime library"
         )
-	ENDIF(NV_SYSTEM_PROCESSOR STREQUAL "x86_64")
+	ENDIF(SYSTEM_PROCESSOR STREQUAL "x86_64")
 
   ELSE (WIN32)
     FIND_PROGRAM( CG_COMPILER cgc

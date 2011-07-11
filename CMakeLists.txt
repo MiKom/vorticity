@@ -14,6 +14,7 @@ if(GLEW_FOUND)
 	include_directories ( ${GLEW_INCLUDE_PATH} )
 endif(GLEW_FOUND)
 
+include(${PROJECT_SOURCE_DIR}/CMakeModules/DetermineProcessor.cmake)
 find_package (Cg)
 if(CG_FOUND)
 	include_directories ( ${CG_INCLUDE_DIR} )
@@ -147,7 +148,7 @@ set (vorticity_ADDITIONAL_LIBRARIES)
 	) 
 	set (vorticity_PRIVATE_HEADERS ${vorticity_PRIVATE_HEADERS} ${vorticity_other_PRIVATE_HEADERS})
 
-#Actual library directive	
+#Actual library directive
 if(DYNAMIC_VORTICITY)	
 	add_library (libvorticity SHARED ${vorticity_SRCS} ${vorticity_PUBLIC_HEADERS} ${vorticity_PRIVATE_HEADERS} )
 else(DYNAMIC_VORTICITY)

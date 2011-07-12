@@ -1,2 +1,7 @@
-2011-07-11 Mi�osz Kosobucki <milosz@mkosobuki.pl>
+2011-07-12 Miłosz Kosobucki <milosz@mkosobuki.pl>
+	* fixed encoding to UTF-8
+	* fixed some compilation errors in Linux
+	* added gcc option to compile with c++0x
+
+2011-07-11 Miłosz Kosobucki <milosz@mkosobuki.pl>
 	* initial version with CMake build system

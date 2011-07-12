@@ -1,6 +1,6 @@
 /* 
- * Copyright © 2010 Micha³ Siejak
- * Copyright © 2010 Mi³osz Kosobucki
+ * Copyright Â© 2010 MichaÅ‚ Siejak
+ * Copyright Â© 2010 MiÅ‚osz Kosobucki
  *
  * All rights reserved.
  * 
@@ -30,6 +30,10 @@ class VAPI ImageLoader : public FileReader
 private:
 	virtual void read();
 	static bool devilInit;
+	
+	//prevent copying
+	ImageLoader(const ImageLoader&);
+	ImageLoader& operator=(const ImageLoader&);
 public:
 	ImageLoader(const std::string& path);
 	virtual ~ImageLoader();

@@ -1,6 +1,6 @@
 /* 
- * Copyright © 2009 Micha³ Siejak
- * Copyright © 2009 Mi³osz Kosobucki
+ * Copyright Â© 2009 MichaÅ‚ Siejak
+ * Copyright Â© 2009 MiÅ‚osz Kosobucki
  *
  * All rights reserved.
  * 

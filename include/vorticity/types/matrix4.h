@@ -1,6 +1,6 @@
 /* 
- * Copyright © 2009, 2010 Micha³ Siejak
- * Copyright © 2010, Mi³osz Kosobucki
+ * Copyright Â© 2009, 2010 MichaÅ‚ Siejak
+ * Copyright Â© 2010, MiÅ‚osz Kosobucki
  *
  * All rights reserved.
  * 
@@ -198,7 +198,7 @@ public:
 	}
 
 	//! swap cell[a] with cell[b]
-	void __forceinline swap(const int a, const int b)
+	inline void swap(const int a, const int b)
 	{
 		float temp	= cell[a];
 		cell[a]		= cell[b];

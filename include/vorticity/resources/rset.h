@@ -1,5 +1,5 @@
 /* 
- * Copyright © 2009, 2010 Micha³ Siejak
+ * Copyright Â© 2009, 2010 MichaÅ‚ Siejak
  *
  * All rights reserved.
  * 
@@ -46,7 +46,7 @@ public:
 	{
 		T* resource;
 		resource = dynamic_cast<T*>(getResource(reader.getPath()));
-		if(resource == nullptr)
+		if(resource == NULL)
 		{
 			resource = new T(reader);
 			addResource(reader.getPath(), resource);

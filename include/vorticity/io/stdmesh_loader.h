@@ -1,6 +1,6 @@
 /* 
- * Copyright © 2009, 2010 Micha³ Siejak
- * Copyright © 2009, 2010 Mi³osz Kosobucki
+ * Copyright Â© 2009, 2010 MichaÅ‚ Siejak
+ * Copyright Â© 2009, 2010 MiÅ‚osz Kosobucki
  *
  * All rights reserved.
  * 
@@ -30,7 +30,7 @@ class Mesh;
 class Material;
 
 /**
- * \author Mi³osz Kosobucki
+ * \author MiÅ‚osz Kosobucki
  *
  * Mesh loader for Vorticity AVR format, for description 
  * see doc/new_model_format.txt
@@ -57,6 +57,10 @@ protected:
 	 **/
 	Mesh* getMesh()
 	{ return (Mesh*)getResource(); }
+private:
+	//preventing copying
+	StdMeshLoader(const StdMeshLoader&);
+	StdMeshLoader& operator=(const StdMeshLoader&);
 
 public:
 	static const uint16_t LATEST_VERSION = 0x0001;

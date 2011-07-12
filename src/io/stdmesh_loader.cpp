@@ -1,6 +1,6 @@
 /* 
- * Copyright © 2010 Micha³ Siejak
- * Copyright © 2010 Mi³osz Kosobucki
+ * Copyright Â© 2010 MichaÅ‚ Siejak
+ * Copyright Â© 2010 MiÅ‚osz Kosobucki
  *
  * All rights reserved.
  * 
@@ -192,8 +192,12 @@ void StdMeshLoader::postload()
 {
 	for(auto it=materials.begin(); it != materials.end(); it++)
 	{
-		size_t count = min(it->second.size(), Material::MaxTextureChannels);
+		size_t count = std::min(it->second.size(), static_cast<size_t>(Material::MaxTextureChannels));
 		for(size_t i=0; i<count; i++)
-			it->first->setTextureChannel(i, getCore()->getCurrentResourceSet()->loadResource<Image>(ImageLoader(textures.at(it->second.at(i)))));
+		{
+			//HACK
+			ImageLoader* loader = new ImageLoader(textures.at(it->second.at(i)));
+			it->first->setTextureChannel(i, getCore()->getCurrentResourceSet()->loadResource<Image>(*loader));
+		}
 	}
 }

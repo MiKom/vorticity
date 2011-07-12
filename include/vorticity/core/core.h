@@ -25,6 +25,11 @@
 namespace Vorticity {
 
 class ResourceSet;
+
+template <class T, time_t R>
+class Timer;
+typedef Timer<float, 1000> StdTimer;
+
 class VAPI Core
 {
 private:
@@ -34,7 +39,7 @@ private:
 	Renderer	*device;
 
 	std::ostream* 	vlog;
-	StdTimer 		timer;
+	StdTimer* 		timer;
 public:
 	Core();
 	virtual ~Core();
@@ -47,7 +52,7 @@ public:
 	void setCurrentResourceSet(ResourceSet* set)
 	{ currentSet = set;	 }
 
-	StdTimer& getTimer();
+	StdTimer* getTimer();
 	std::ostream& getLog();
 
 	void	setApplication(Application *app) { theApp = app;  }

@@ -1,5 +1,5 @@
 /* 
- * Copyright © 2009, 2010 Micha³ Siejak
+ * Copyright Â© 2009, 2010 MichaÅ‚ Siejak
  *
  * All rights reserved.
  * 
@@ -95,6 +95,8 @@ public:
 		: std::runtime_error(msg), object_info(obj)
 	{ }
 
+	~DeviceException() throw();
+
 	const std::string& object() const
 	{ return object_info; }
 };
@@ -106,10 +108,9 @@ protected:
 	Overlay*	overlay;
 	int screenWidth, screenHeight;
 
-	// To ¿eby siê nie pomyliæ :P
-	static __forceinline int SETID(const int id) { return id+1; }
-	static __forceinline int GETID(const int id) { return id-1; }
-	static __forceinline bool CHECKID(const int id, const int max)
+	inline static int SETID(const int id) { return id+1; }
+	inline static int GETID(const int id) { return id-1; }
+	inline static bool CHECKID(const int id, const int max)
 	{ if(id <= 0 || id > max) return false; return true; }
 
 	Renderer() : screenWidth(0), screenHeight(0), cgContext(NULL)

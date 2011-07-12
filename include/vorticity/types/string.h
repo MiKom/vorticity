@@ -1,5 +1,5 @@
 /* 
- * Copyright © 2009 Micha³ Siejak
+ * Copyright Â© 2009 MichaÅ‚ Siejak
  *
  * All rights reserved.
  * 

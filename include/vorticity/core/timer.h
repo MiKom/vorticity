@@ -1,6 +1,6 @@
 /* 
- * Copyright © 2009, 2010 Micha³ Siejak
- * Copyright © 2010 Mi³osz Kosobucki
+ * Copyright Â© 2009, 2010 MichaÅ‚ Siejak
+ * Copyright Â© 2010 MiÅ‚osz Kosobucki
  *
  * All rights reserved.
  * 
@@ -24,6 +24,8 @@
 #define __VORTICITY_TIMER_H
 
 namespace Vorticity {
+
+class Core;
 
 template <class T, time_t R>
 class Timer

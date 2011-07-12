@@ -1,6 +1,6 @@
 /* 
- * Copyright © 2009, 2010 Micha³ Siejak
- * Copyright © 2011 Mi³osz Kosobucki
+ * Copyright Â© 2009, 2010 MichaÅ¼ Siejak
+ * Copyright Â© 2011 MiÅ¼osz Kosobucki
  *
  * All rights reserved.
  * 
@@ -60,8 +60,8 @@ typedef struct _CGcontext *CGcontext;
 	#include "platforms/linux/linux.h"
 #endif
 
-#include "core/timer.h"
 #include "core/core.h"
+#include "core/timer.h"
 #include "core/entity.h"
 
 #endif

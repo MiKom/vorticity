@@ -1,6 +1,6 @@
 /* 
- * Copyright © 2009, 2010 Micha³ Siejak
- * Copyright © 2011 Mi³osz Kosobucki
+ * Copyright Â© 2009, 2010 MichaÅ‚ Siejak
+ * Copyright Â© 2011 MiÅ‚osz Kosobucki
  *
  * All rights reserved.
  * 
@@ -26,15 +26,16 @@
 #define _CRT_SECURE_NO_DEPRECATE
 #include <stdio.h>
 #include <stdarg.h>
-#include <io.h>
 #include <math.h>
 #include <stdint.h>
 #include <stdexcept>
+#include <cstring>
 #include <vector>
 #include <list>
 #include <map>
 #include <fstream>
 #include <sstream>
+#include <algorithm>
 
 #ifdef WIN32
 #define WIN32_LEAN_AND_MEAN

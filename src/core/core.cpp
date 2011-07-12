@@ -1,5 +1,5 @@
 /* 
- * Copyright © 2009, 2010 Micha³ Siejak
+ * Copyright Â© 2009, 2010 MichaÅ‚ Siejak
  *
  * All rights reserved.
  * 
@@ -46,15 +46,18 @@ Core::Core() : vlog(NULL), theApp(NULL), device(NULL)
 {
 	defaultSet = new ResourceSet();
 	currentSet = defaultSet;
+	
+	timer = new StdTimer();
 }
 
 Core::~Core()
 {
+	delete timer;
 	delete defaultSet;
 	delete vlog;
 }
 
-StdTimer& Core::getTimer()
+StdTimer* Core::getTimer()
 {
 	return timer;
 }

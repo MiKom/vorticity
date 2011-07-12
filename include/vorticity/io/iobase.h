@@ -1,5 +1,5 @@
 /* 
- * Copyright © 2010 Micha³ Siejak
+ * Copyright Â© 2010 MichaÅ‚ Siejak
  *
  * All rights reserved.
  * 
@@ -31,6 +31,7 @@ protected:
 	std::string path;
 public:
 	IOException(const std::string& msg, const std::string& path, const int err);
+	~IOException() throw();
 	
 	const int getStatus() const 		{ return error; }
 	const std::string& getPath() const 	{ return path; 	}
@@ -47,6 +48,10 @@ protected:
 	Resource*		resource;
 protected:
 	IOBase(const std::string& path="");
+private:
+	//preventing copying
+	IOBase(const IOBase&);
+	IOBase& operator=(const IOBase&);
 public:
 	virtual ~IOBase();
 

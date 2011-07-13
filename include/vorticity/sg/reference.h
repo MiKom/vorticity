@@ -58,9 +58,7 @@ public:
 		if(index == 0)
 			return attrib->setValue(value);
 		else return false;
-	}
-	template < > bool setValue<float>(const float& value) const;
-	template < > bool setValue<int>(const int& value) const;
+        }
 
 	template <class T>
 	bool getValue(T& value) const
@@ -69,10 +67,13 @@ public:
 		if(index == 0)
 			return attrib->getValue(value);
 		else return false;
-	}
-	template < > bool getValue<float>(float& value) const;
-	template < > bool getValue<int>(int& value) const;
+        }
 };
+template < > bool Reference::setValue<float>(const float& value) const;
+template < > bool Reference::getValue<int>(int& value) const;
+
+template < > bool Reference::getValue<float>(float& value) const;
+template < > bool Reference::getValue<int>(int& value) const;
 
 } // Vorticity
 

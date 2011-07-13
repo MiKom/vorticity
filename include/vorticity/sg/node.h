@@ -68,7 +68,7 @@ protected:
 	template <class T>
 	bool writeOutput(const T& value, bool updateTransform=true) const
 	{
-		for(ReferenceArray::const_iterator it=outputNodes.begin();
+                for(auto it=outputNodes.begin();
 			it < outputNodes.end(); it++)
 		{
 			if(!(*it).setValue<T>(value))
@@ -161,11 +161,11 @@ public:
 	virtual string getClass() const	{ return "node"; }
 
 	// "graph-new" implementation
-	template <class T> __forceinline friend T& gnew(const string& name, XNode& parent)
+        template <class T> inline friend T& gnew(const string& name, XNode& parent)
 	{ return (T&)*new T(name, &parent); }
-	template <class T> __forceinline friend T& gnew(const string& name, XNode* parent)
+        template <class T> inline friend T& gnew(const string& name, XNode* parent)
 	{ return (T&)*new T(name, parent);	}
-	template <class T> __forceinline friend T& gnew(const string& name)
+        template <class T> inline friend T& gnew(const string& name)
 	{ return (T&)*new T(name, NULL);	}
 
 	virtual void setupShader(const int shader, Renderer *device)

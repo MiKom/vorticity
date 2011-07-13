@@ -56,7 +56,7 @@ bool PostProcess::addSource(const string &name, NodeCamera *cam)
 
 bool PostProcess::removeSource(const string &name)
 {
-	FrameSourceMap::const_iterator it = sources.find(name);
+        FrameSourceMap::iterator it = sources.find(name);
 	if(it == sources.end())
 		return false;
 	sources.erase(it);
@@ -83,7 +83,7 @@ bool PostProcess::addShader(const string& name, Shader *shader)
 
 bool PostProcess::removeShader(const string& name)
 {
-	FrameShaderMap::const_iterator it = shaders.find(name);
+        FrameShaderMap::iterator it = shaders.find(name);
 	if(it == shaders.end())
 		return false;
 	shaders.erase(it);
@@ -92,7 +92,7 @@ bool PostProcess::removeShader(const string& name)
 
 Shader* PostProcess::getShader(const string& name) const
 {
-	FrameShaderMap::const_iterator it = shaders.find(name);
+        FrameShaderMap::const_iterator it = shaders.find(name);
 	if(it == shaders.end())
 		return NULL;
 	return it->second;

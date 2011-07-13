@@ -1,6 +1,6 @@
 /* 
- * Copyright © 2009, 2010 Michaż Siejak
- * Copyright © 2011 Miżosz Kosobucki
+ * Copyright © 2009, 2010 Michał Siejak
+ * Copyright © 2011 Miłosz Kosobucki
  *
  * All rights reserved.
  * 

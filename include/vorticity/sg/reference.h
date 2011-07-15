@@ -69,11 +69,6 @@ public:
 		else return false;
         }
 };
-template < > bool Reference::setValue<float>(const float& value) const;
-template < > bool Reference::getValue<int>(int& value) const;
-
-template < > bool Reference::getValue<float>(float& value) const;
-template < > bool Reference::getValue<int>(int& value) const;
 
 } // Vorticity
 

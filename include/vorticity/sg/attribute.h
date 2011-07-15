@@ -101,7 +101,7 @@ public:
 	virtual AnyAttribute& operator = (const string& v)
 	{ throw BadTypeException("Type mismatch: string");		}
 
-	virtual operator int&		() const	{ throw BadTypeException("Type mismatch: int");		}
+        virtual operator int&		() const	{ throw BadTypeException("Type mismatch: int");		}
 	virtual operator float&		() const	{ throw BadTypeException("Type mismatch: float");	}
 	virtual operator vector2&	() const	{ throw BadTypeException("Type mismatch: vector2"); }
 	virtual operator vector3&	() const	{ throw BadTypeException("Type mismatch: vector3"); }

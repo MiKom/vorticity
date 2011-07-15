@@ -72,7 +72,9 @@ void Object::updateTransformation(bool propagate)
 		localTM.translate(p);
 		localTM.rotate(vector3(vr.x*Math::Pi180, vr.y*Math::Pi180, vr.z*Math::Pi180));
 		localTM.translate(pv);
-		localTM.scale((vector3)s);
+
+                //FIXME: Gcc is more strict about type matching,
+                localTM.scale((const vec3&)s);
 		worldTM *= localTM;
 
 		p.setClean(); r.setClean(); s.setClean(); pv.setClean();
@@ -80,7 +82,7 @@ void Object::updateTransformation(bool propagate)
 
 	if(propagate && recalcTransform)
 	{
-		NodeIterator it = enumChildren(0);
+                NodeConstIterator it = enumChildren(0);
 		while(Node *n = getChild(it))
 			if(n->getClass() == "object") ((Object*)n)->updateTransformation(true);
 	}

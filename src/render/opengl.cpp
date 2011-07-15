@@ -303,7 +303,7 @@ bool OpenGL::setShaderArrayParameter(CGparameter p, const ArrayAttribute *attrib
 	int size = cgGetArraySize(p, 0);
 	//if(size > attrib->getCount())
 	//	return false;
-	for(int i=0; i<min(size, (int)attrib->getCount()); i++)
+        for(int i=0; i<std::min(size, (int)attrib->getCount()); i++)
 	{
 		CGparameter pi = cgGetArrayParameter(p, i);
 		if(!setSingleShaderParameter(pi, &attrib->getAt(i)))

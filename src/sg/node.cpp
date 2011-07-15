@@ -212,10 +212,10 @@ void Node::disconnectAll()
 	outputNodes.clear();
 }
 
-NodeIterator Node::enumAffectedBy(const size_t index) const
+NodeConstIterator Node::enumAffectedBy(const size_t index) const
 { return affectedBy.begin() + index; }
 
-Node* Node::getAffectedBy(NodeIterator &it) const
+Node* Node::getAffectedBy(NodeConstIterator &it) const
 {
 	if(it == affectedBy.end())
 		return NULL;
@@ -245,7 +245,7 @@ void Node::hideSubgraph(bool flag)
 	hidden = flag;
 	if(hasChildren())
 	{
-		NodeIterator it = ((XNode*)this)->enumChildren(0);
+                NodeConstIterator it = ((XNode*)this)->enumChildren(0);
 		while(Node* n = ((XNode*)this)->getChild(it))
 			n->hideSubgraph(flag);
 	}

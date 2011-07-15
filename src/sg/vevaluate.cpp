@@ -41,7 +41,7 @@ void EvaluateVisitor::traverse(Vorticity::Node *root)
 
 	if(!root->isEnabled())
 		return;
-	NodeIterator it = root->enumAffectedBy(0);
+        NodeConstIterator it = root->enumAffectedBy(0);
 	while(Node* n = root->getAffectedBy(it))
 		traverse(n);
 

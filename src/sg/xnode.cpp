@@ -75,7 +75,7 @@ bool XNode::removeChild(const size_t index)
 	if(index >= children.size())
 		return false;
 	auto it = children.begin() + index;
-	(*it)->setParent(nullptr);
+        (*it)->setParent(NULL);
 	children.erase(it);
 	return true;
 }
@@ -90,7 +90,7 @@ bool XNode::removeChild(const string &name)
 	{
 		if((*it)->getName() == name)
 		{
-			(*it)->setParent(nullptr);
+                        (*it)->setParent(NULL);
 			children.erase(it);
 			return true;
 		}
@@ -162,10 +162,10 @@ Modifier* XNode::getModifier(const string &type) const
 	return NULL;
 }
 
-NodeIterator XNode::enumChildren(const size_t index) const
+NodeConstIterator XNode::enumChildren(const size_t index) const
 { return children.begin() + index; }
 
-Node* XNode::getChild(NodeIterator &it) const
+Node* XNode::getChild(NodeConstIterator &it) const
 {
 	if(it == children.end())
 		return NULL;

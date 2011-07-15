@@ -20,6 +20,7 @@
  */
 
 #include "config.h"
+//#include "vorticity/sg/reference.h"
 #include "vorticity/sg/attribute.h"
 
 using namespace Vorticity;

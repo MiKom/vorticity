@@ -77,8 +77,8 @@ public:
 	virtual bool isExtended() const
 	{ return true; }
 
-	inline NodeIterator enumChildren(const size_t index) const;
-	inline Node* getChild(NodeIterator &it) const;
+        inline NodeConstIterator enumChildren(const size_t index) const;
+        inline Node* getChild(NodeConstIterator &it) const;
 
 	bool		addModifier(Modifier* mod, const int priority);
 	bool		removeModifier(const string &type);

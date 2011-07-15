@@ -1,3 +1,6 @@
+2011-07-15 Miłosz Kosobucki <milosz@mkosobuki.pl>
+	* various fixes for gcc (and c++ standard compatibility)
+
 2011-07-12 Miłosz Kosobucki <milosz@mkosobuki.pl>
 	* fixed encoding to UTF-8
 	* fixed some compilation errors in Linux

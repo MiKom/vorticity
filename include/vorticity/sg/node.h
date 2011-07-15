@@ -33,7 +33,8 @@ class Resource;
 
 typedef std::map<string, AnyAttribute*>	AttributeMap;
 typedef std::vector<Node*>				NodeArray;
-typedef NodeArray::const_iterator		NodeIterator;
+typedef NodeArray::iterator             NodeIterator;
+typedef NodeArray::const_iterator		NodeConstIterator;
 typedef AttributeMap::const_iterator	AttributeIterator;
 typedef std::map<string, Node*>			NodeMap;
 typedef std::vector<Reference>			ReferenceArray;
@@ -83,8 +84,8 @@ public:
 	bool			removeAttrib(const int index);
 	bool			isAffectedBy(Node *pnode) const;
 
-	inline NodeIterator enumAffectedBy(const size_t index) const;
-	inline Node* getAffectedBy(NodeIterator &it) const;
+        inline NodeConstIterator enumAffectedBy(const size_t index) const;
+        inline Node* getAffectedBy(NodeConstIterator &it) const;
 
 	inline AttributeIterator enumAttributes(const size_t index) const;
 	inline AnyAttribute* getAttrib(AttributeIterator &it) const;

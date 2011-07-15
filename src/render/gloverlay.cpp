@@ -58,13 +58,13 @@ void OverlayOpenGL::text(const Font* font, const float x, const float y, const f
 	float width=0.0f, height=0.0f;
 
 	va_start(ap, format);
-	vsprintf_s<256>(buffer, format, ap);
+        vsnprintf(buffer, 256, format, ap);
 	va_end(ap);
 
 	for(char* c=buffer; (*c) != 0; c++)
 	{
 		width += font->metrics[*c].width;
-		height = max(height, font->metrics[*c].height);
+                height = std::max(height, font->metrics[*c].height);
 	}
 
 	glPushMatrix();

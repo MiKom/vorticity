@@ -71,7 +71,7 @@ bool NodeMaterial::bind(Resource *res)
 	char samplerName[256];
 	while(textureImage = material->getTextureChannel(textureIndex))
 	{
-		sprintf_s<256>(samplerName, "Sampler%d", textureIndex++);
+                snprintf(samplerName, 256, "Sampler%d", textureIndex++);
 		setSampler(samplerName, textureImage->getID());
 	}
 	return true;
@@ -99,18 +99,20 @@ int NodeMaterial::getSampler(const string& name) const
 
 void NodeMaterial::setupShader(const int shader, Renderer *device)
 {
+        //INFO: This cast of last parameter to Attribute constructor is to make the cast for exact type
+        // that Attribute constructor expects i.e. const T&
 	device->setShaderParameter(shader,
-		&Attribute<vector3>("MaterialDiffuse", getAttrib("diffuse")));
+                &Attribute<vector3>("MaterialDiffuse", static_cast<const vec3&>(getAttrib("diffuse"))));
 	device->setShaderParameter(shader,
-		&Attribute<vector3>("MaterialAmbient", getAttrib("ambient")));
+                &Attribute<vector3>("MaterialAmbient", static_cast<const vec3&>(getAttrib("ambient"))));
 	device->setShaderParameter(shader,
-		&Attribute<vector3>("MaterialSpecular", getAttrib("specular")));
+                &Attribute<vector3>("MaterialSpecular", static_cast<const vec3&>(getAttrib("specular"))));
 	device->setShaderParameter(shader,
-		&Attribute<float>("MaterialGloss", getAttrib("glossiness")));
+                &Attribute<float>("MaterialGloss", static_cast<const float&>(getAttrib("glossiness"))));
 	device->setShaderParameter(shader,
-		&Attribute<float>("MaterialSpecLevel", getAttrib("specular_level")));
+                &Attribute<float>("MaterialSpecLevel", static_cast<const float&>(getAttrib("specular_level"))));
 	device->setShaderParameter(shader,
-		&Attribute<vector3>("MaterialEmissive", getAttrib("emissive")));
+                &Attribute<vector3>("MaterialEmissive", static_cast<const vec3&>(getAttrib("emissive"))));
 
 	device->setShaderParameterBySemantic(shader, &Attribute<int>("V_MAXSAMPLERS", (int)samplers.size()));
 	for(auto i=samplers.begin(); i != samplers.end(); i++)

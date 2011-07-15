@@ -45,7 +45,7 @@ bool Proxy::isType(const string& type)
 
 ProxyNodeIterator Proxy::enumType(const string& type)
 {
-	ProxyNodeMap::const_iterator it = proxyMap.find(type);
+        ProxyNodeMap::iterator it = proxyMap.find(type);
 	return ProxyNodeIterator(it->second.begin(), it->second.end());
 }
 

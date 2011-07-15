@@ -133,7 +133,7 @@ void RenderVisitor::createRenderGroups(XNode *node, ModifierCache cache)
 			it->second.push_back(cache);
 	}
 
-	NodeIterator node_it = node->enumChildren(0);
+        NodeConstIterator node_it = node->enumChildren(0);
 	while(Node* n = node->getChild(node_it))
 	{
 		if(n->isExtended())

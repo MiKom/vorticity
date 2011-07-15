@@ -51,67 +51,69 @@ Reference::Reference(Node *node, AnyAttribute* attrib, const unsigned int index)
 	else if(attrib->getType() == "matrix4")
 		hint = MATRIX4;
 }
+namespace Vorticity {
+template < > bool Reference::getValue<float>(float& value) const
+{
+        if(!attrib) return false;
 
-template < > bool Reference::setValue<int>(const int& value) const
-{ return setValue<float>((const float&)value); }
+        if(index == 0)
+                return attrib->getValue(value);
+        if(hint == VECTOR2 && index <= 2) {
+                vector2 v; attrib->getValue(v);
+                value = v.cell[index-1];
+                return true;
+        }
+        else if(hint == VECTOR3 && index <= 3) {
+                vector3 v; attrib->getValue(v);
+                value = v.cell[index-1];
+                return true;
+        }
+        else if(hint == VECTOR4 && index <= 4) {
+                vector4 v; attrib->getValue(v);
+                value = v.cell[index-1];
+                return true;
+        }
+        else if(hint == MATRIX4 && index <= 16) {
+                matrix4 v; attrib->getValue(v);
+                value = v.cell[index-1];
+                return true;
+        }
+        else return false;
+}
 
 template < > bool Reference::setValue<float>(const float& value) const
-{ 
-	if(!attrib) return false;
+{
+        if(!attrib) return false;
 
-	if(index == 0)
-		return attrib->setValue(value);
-	if(hint == VECTOR2 && index <= 2) {
-		vector2 v; attrib->getValue(v);
-		v.cell[index-1] = value;
-		return attrib->setValue(v);
-	}
-	else if(hint == VECTOR3 && index <= 3) {
-		vector3 v; attrib->getValue(v);
-		v.cell[index-1] = value;
-		return attrib->setValue(v);
-	}
-	else if(hint == VECTOR4 && index <= 4) {
-		vector4 v; attrib->getValue(v);
-		v.cell[index-1] = value;
-		return attrib->setValue(v);
-	}
-	else if(hint == MATRIX4 && index <= 16) {
-		matrix4 v; attrib->getValue(v);
-		v.cell[index-1] = value;
-		return attrib->setValue(v);
-	}
-	else return false;
+        if(index == 0)
+                return attrib->setValue(value);
+        if(hint == VECTOR2 && index <= 2) {
+                vector2 v; attrib->getValue(v);
+                v.cell[index-1] = value;
+                return attrib->setValue(v);
+        }
+        else if(hint == VECTOR3 && index <= 3) {
+                vector3 v; attrib->getValue(v);
+                v.cell[index-1] = value;
+                return attrib->setValue(v);
+        }
+        else if(hint == VECTOR4 && index <= 4) {
+                vector4 v; attrib->getValue(v);
+                v.cell[index-1] = value;
+                return attrib->setValue(v);
+        }
+        else if(hint == MATRIX4 && index <= 16) {
+                matrix4 v; attrib->getValue(v);
+                v.cell[index-1] = value;
+                return attrib->setValue(v);
+        }
+        else return false;
 }
 
 template < > bool Reference::getValue<int>(int& value) const
 { return getValue<float>((float&)value); }
 
-template < > bool Reference::getValue<float>(float& value) const
-{
-	if(!attrib) return false;
 
-	if(index == 0)
-		return attrib->getValue(value);
-	if(hint == VECTOR2 && index <= 2) {
-		vector2 v; attrib->getValue(v);
-		value = v.cell[index-1];
-		return true;
-	}
-	else if(hint == VECTOR3 && index <= 3) {
-		vector3 v; attrib->getValue(v);
-		value = v.cell[index-1];
-		return true;
-	}
-	else if(hint == VECTOR4 && index <= 4) {
-		vector4 v; attrib->getValue(v);
-		value = v.cell[index-1];
-		return true;
-	}
-	else if(hint == MATRIX4 && index <= 16) {
-		matrix4 v; attrib->getValue(v);
-		value = v.cell[index-1];
-		return true;
-	}
-	else return false;
+template < > bool Reference::setValue<int>(const int& value) const
+{ return setValue<float>((const float&)value); }
 }

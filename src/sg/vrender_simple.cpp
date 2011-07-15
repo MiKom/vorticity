@@ -67,7 +67,7 @@ void SimpleRenderVisitor::renderSubtree(Node *root)
 	}
 	if(root->hasChildren())
 	{
-		NodeIterator it = ((XNode*)root)->enumChildren(0);
+                NodeConstIterator it = ((XNode*)root)->enumChildren(0);
 		while(Node* n = ((XNode*)root)->getChild(it))
 			renderSubtree(n);
 	}

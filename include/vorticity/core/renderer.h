@@ -95,7 +95,9 @@ public:
 		: std::runtime_error(msg), object_info(obj)
 	{ }
 
+#ifndef _MSC_VER
 	~DeviceException() throw();
+#endif
 
 	const std::string& object() const
 	{ return object_info; }

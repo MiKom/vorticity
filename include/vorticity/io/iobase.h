@@ -31,7 +31,9 @@ protected:
 	std::string path;
 public:
 	IOException(const std::string& msg, const std::string& path, const int err);
+#ifndef _MSC_VER
 	~IOException() throw();
+#endif
 	
 	const int getStatus() const 		{ return error; }
 	const std::string& getPath() const 	{ return path; 	}

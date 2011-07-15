@@ -39,7 +39,7 @@ Win32_Application::Win32_Application() : Application(), clientWidth(0), clientHe
 
 	TIMECAPS tc;
 	timeGetDevCaps(&tc, sizeof(TIMECAPS));
-	timeResolution = min(max(tc.wPeriodMin, 1), tc.wPeriodMax);
+	timeResolution = std::min(std::max(tc.wPeriodMin, static_cast<UINT>(1)), tc.wPeriodMax);
 
 	setConsole(new Win32_Console());
 	getCore()->setApplication(this);
@@ -307,7 +307,7 @@ int Win32_Application::run()
 			updateProc(this);
 
 		onDraw();
-		getCore()->getTimer().update();
+		getCore()->getTimer()->update();
 		if(threaded)
 			LeaveCriticalSection(&threadDrawLock);
 

@@ -71,7 +71,11 @@ bool NodeMaterial::bind(Resource *res)
 	char samplerName[256];
 	while(textureImage = material->getTextureChannel(textureIndex))
 	{
-                snprintf(samplerName, 256, "Sampler%d", textureIndex++);
+#ifdef _MSC_VER //retarded compiler
+		sprintf_s<256>(samplerName, "Sampler%d", textureIndex++);
+#else
+		snprintf(samplerName, 256, "Sampler%d", textureIndex++);
+#endif
 		setSampler(samplerName, textureImage->getID());
 	}
 	return true;

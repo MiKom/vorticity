@@ -66,21 +66,8 @@ protected:
 	{ return false; }
 
 	template <class T>
-	bool writeOutput(const T& value, bool updateTransform=true) const
-	{
-                for(auto it=outputNodes.begin();
-			it < outputNodes.end(); it++)
-		{
-			if(!(*it).setValue<T>(value))
-				return false;
-			if(updateTransform)
-			{
-				if((*it).getNode()->getClass() == "object")
-					((Object*)(*it).getNode())->updateTransformation();
-			}
-		}
-		return true;
-	}
+        bool writeOutput(const T& value, bool updateTransform=true) const;
+
 public:
 	virtual ~Node();
 
@@ -177,6 +164,31 @@ public:
 	virtual void evaluate()						{ }
 	virtual void render(Renderer *device)		{ }
 };
+
+} // Vorticity
+
+#include <vorticity/sg/xnode.h>
+#include <vorticity/sg/object.h>
+
+namespace Vorticity {
+
+template <class T>
+bool Node::writeOutput(const T& value, bool updateTransform) const
+{
+        for(auto it=outputNodes.begin();
+                it < outputNodes.end(); it++)
+        {
+                if(!(*it).setValue<T>(value))
+                        return false;
+                if(updateTransform)
+                {
+                        Object* obj = dynamic_cast<Object*>((*it).getNode());
+                        if(obj != NULL)
+                                ((Object*)(*it).getNode())->updateTransformation();
+                }
+        }
+        return true;
+}
 
 class VAPI AbstractVisitor
 {

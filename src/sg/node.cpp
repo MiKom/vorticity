@@ -27,7 +27,7 @@
 using namespace Vorticity;
 
 Node::Node(const string &name, Vorticity::XNode *parent) : Entity(),
-	enabled(true), hidden(false), parent(nullptr)
+        enabled(true), hidden(false), parent(NULL)
 {
 	this->name			= const_cast<string&>(name);
 	this->evaluateFlag	= false;

@@ -54,11 +54,11 @@ void NodeLight::evaluate()
 void NodeLight::setupShader(const int shader, Renderer *device, const int index)
 {
 	device->setShaderParameter(shader,
-		&Attribute<vec3>("LightAmbient", getAttrib("ambient")), index);
+                &Attribute<vec3>("LightAmbient", getAttrib("ambient")), index);
 	device->setShaderParameter(shader,
-		&Attribute<vec3>("LightDiffuse", getAttrib("diffuse")), index);
+                &Attribute<vec3>("LightDiffuse", getAttrib("diffuse")), index);
 	device->setShaderParameter(shader,
-		&Attribute<vec3>("LightSpecular", getAttrib("specular")), index);
+                &Attribute<vec3>("LightSpecular", getAttrib("specular")), index);
 	device->setShaderParameter(shader,
 		&Attribute<vec3>("LightPosition", worldPosition), index);
 }

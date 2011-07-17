@@ -46,9 +46,11 @@ ELSE (WIN32)
 		${GLEW_ROOT_DIR}/include
 		DOC "The directory where GL/glew.h resides")
 
-	# Prefer the static library.
+	# Prefer dynamic library. By default, GLEW static library
+	# is compiled without -fPIC that will not work due to 
+	# relocations
 	FIND_LIBRARY( GLEW_LIBRARY
-		NAMES libGLEW.a GLEW
+		NAMES libGLEW.so GLEW
 		PATHS
 		/usr/lib64
 		/usr/lib

@@ -362,8 +362,8 @@ set (vorticity_ADDITIONAL_LIBRARIES)
 
 #Actual library directive
 if(DYNAMIC_VORTICITY)	
-	add_library (libvorticity SHARED ${vorticity_SRCS} ${vorticity_PUBLIC_HEADERS} ${vorticity_PRIVATE_HEADERS} )
+	add_library (vorticity SHARED ${vorticity_SRCS} ${vorticity_PUBLIC_HEADERS} ${vorticity_PRIVATE_HEADERS} )
 else(DYNAMIC_VORTICITY)
-	add_library (libvorticity STATIC ${vorticity_SRCS} ${vorticity_PUBLIC_HEADERS} ${vorticity_PRIVATE_HEADERS} )
+	add_library (vorticity STATIC ${vorticity_SRCS} ${vorticity_PUBLIC_HEADERS} ${vorticity_PRIVATE_HEADERS} )
 endif(DYNAMIC_VORTICITY)
-target_link_libraries(libvorticity ${vorticity_ADDITIONAL_LIBRARIES})
+target_link_libraries(vorticity ${vorticity_ADDITIONAL_LIBRARIES})

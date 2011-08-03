@@ -1,5 +1,5 @@
 # 
-# Copyright © 2011 Mi³osz Kosobucki
+# Copyright Â© 2011 MiÅ‚osz Kosobucki
 # 
 # All rights reserved.
 # 
@@ -36,6 +36,11 @@ if(DYNAMIC_VORTICITY)
 else(DYNAMIC_VORTICITY)
 	add_definitions(-DVORTICITY_LIBRARY_STATIC)
 endif(DYNAMIC_VORTICITY)
+
+# setting c++0x support in gcc
+if(${CMAKE_COMPILER_IS_GNUCXX})
+	set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} -std=c++0x)
+endif(${CMAKE_COMPILER_IS_GNUCXX})
 
 #containers for source files, public header files, private header files and additional libraries
 set (vorticity_SRCS)

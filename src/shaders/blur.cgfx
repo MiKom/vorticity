@@ -1,0 +1,84 @@
+struct vsinput
+{
+	float3	position	: POSITION;
+	float2	texcoord	: TEXCOORD0;
+};
+
+struct psinput
+{
+	float4	position	: POSITION;
+	float2	texcoord	: TEXCOORD0;
+};
+
+float4x4 ModelviewProjMatrix : V_MVP;
+sampler2D colorSampler : V_COLOR0;
+
+uniform int width : V_WIDTH;
+uniform int height : V_HEIGHT;
+
+psinput mainVS(vsinput input)
+{
+	psinput output;
+	output.position = mul(ModelviewProjMatrix, float4(input.position, 1.0));
+	output.texcoord = input.texcoord;
+	return output;
+}
+
+// Gaussian blur parameters
+static const float gmax		 = 81.0;
+static const float offset[]	 = 
+	{ -8.0, -7.0, -6.0, -5.0, -4.0, -3.0, -2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0 };
+static const float weights[] = 
+	{ 1.0/gmax, 2.0/gmax, 3.0/gmax, 4.0/gmax, 5.0/gmax, 6.0/gmax, 7.0/gmax, 8.0/gmax, 9.0/gmax,
+	  8.0/gmax, 7.0/gmax, 6.0/gmax, 5.0/gmax, 4.0/gmax, 3.0/gmax, 2.0/gmax, 1.0/gmax };
+
+float4 mainPS_Vertical(psinput input) : COLOR
+{
+	const float factor = 2.0 / float(width);
+	float4 sum;
+
+	for(int i=0; i<offset.length; i++)
+	{
+		sum += tex2D(colorSampler,
+			float2(	input.texcoord.x + offset[i]*factor,
+					input.texcoord.y))
+					* weights[i];
+	}
+	return sum;
+}
+
+float4 mainPS_Horizontal(psinput input) : COLOR
+{
+	const float factor = 2.0 / float(height);
+	float4 sum;
+
+	for(int i=0; i<offset.length; i++)
+	{
+		sum += tex2D(colorSampler,
+			float2(	input.texcoord.x,
+					input.texcoord.y + offset[i]*factor))
+					* weights[i];
+	}
+	return sum;
+}
+
+technique technique0
+{
+	pass Vertical
+	{
+		DepthTestEnable = false;
+		CullFaceEnable	= false;
+
+		VertexProgram	= compile glslv mainVS();
+		FragmentProgram	= compile glslf mainPS_Vertical();
+	}
+
+	pass Horizontal
+	{
+		DepthTestEnable = false;
+		CullFaceEnable	= false;
+
+		VertexProgram	= compile glslv mainVS();
+		FragmentProgram	= compile glslf mainPS_Horizontal();
+	}
+}

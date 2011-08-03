@@ -1,0 +1,39 @@
+struct vsinput
+{
+	float3	position	: POSITION;
+	float2	texcoord	: TEXCOORD0;
+};
+
+struct psinput
+{
+	float4	position	: POSITION;
+	float2	texcoord	: TEXCOORD0;
+};
+
+float4x4 ModelviewProjMatrix : V_MVP;
+sampler2D colorSampler : V_COLOR0;
+
+psinput mainVS(vsinput input)
+{
+	psinput output;
+	output.position = mul(ModelviewProjMatrix, float4(input.position, 1.0));
+	output.texcoord = input.texcoord;
+	return output;
+}
+
+float4 mainPS(psinput input) : COLOR
+{
+	return tex2D(colorSampler, input.texcoord);
+}
+
+technique technique0
+{
+	pass p0
+	{
+		DepthTestEnable = false;
+		CullFaceEnable	= false;
+
+		VertexProgram	= compile glslv mainVS();
+		FragmentProgram	= compile glslf mainPS();
+	}
+}

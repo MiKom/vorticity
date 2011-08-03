@@ -1,0 +1,97 @@
+// Simple Lambert shading (one directional light).
+// Vorticity engine
+
+#define MAX_LIGHTS	1
+
+struct vsinput
+{
+	float3	position	: POSITION;
+	float3	normal		: NORMAL;
+	float2	texcoord	: TEXCOORD0;
+};
+
+struct psinput
+{
+	float4	position	: POSITION;
+	float2	texcoord	: TEXCOORD0;
+	float3	normal;
+};
+
+float4x4 ModelviewProjMatrix	: V_MVP;
+float4x4 ModelViewTransposed	: V_MVIT;
+
+uniform float3	MaterialDiffuse;
+uniform float3	MaterialAmbient;
+uniform float3	MaterialEmissive;
+
+uniform float3	LightDiffuse[MAX_LIGHTS];
+uniform float3	LightPosition[MAX_LIGHTS];
+
+uniform int MaxSamplers : V_MAXSAMPLERS;
+sampler2D Sampler0;
+
+psinput mainVS_Low(vsinput input)
+{
+	psinput output;
+	output.texcoord = input.texcoord;
+	output.position = mul(ModelviewProjMatrix, float4(input.position, 1.0));
+	return output;
+}
+
+float4 mainPS_Low(psinput input) : COLOR
+{
+	float3 color = MaterialDiffuse + MaterialEmissive;
+	if(MaxSamplers > 0)
+		color *= tex2D(Sampler0, input.texcoord);
+	return float4(color, 1.0);
+}
+
+psinput mainVS_High(vsinput input)
+{
+	psinput output;
+	output.texcoord = input.texcoord;
+	output.position = mul(ModelviewProjMatrix, float4(input.position, 1.0));
+	output.normal   = mul(ModelViewTransposed, float4(input.normal, 1.0)).xyz;
+	return output;
+}
+
+float4 mainPS_High(psinput input) : COLOR
+{
+	float3 normal   = normalize(input.normal);
+	float3 lightvec = normalize(LightPosition[0]);
+
+	float dotNL  = dot(normal, lightvec);
+	float3 color = 
+		MaterialDiffuse * LightDiffuse[0] * dotNL + 
+		MaterialEmissive;
+
+	if(MaxSamplers > 0)
+		color *= tex2D(Sampler0, input.texcoord);
+	return float4(color, 1.0);
+}
+
+// NVIDIA GeForce 8 or above (4 lights)
+technique HighEndNVidia
+{
+	pass p0
+	{
+		DepthTestEnable = true;
+		CullFaceEnable  = true;
+
+		VertexProgram	= compile gp4vp mainVS_High();
+		FragmentProgram	= compile gp4fp mainPS_High();
+	}
+}
+
+// NVIDIA GeForce FX, Radeon 9500 or above (2 lights)
+technique LowEndAllVendors
+{
+	pass p0
+	{
+		DepthTestEnable = true;
+		CullFaceEnable	= true;
+
+		VertexProgram	= compile arbvp1 mainVS_Low();
+		FragmentProgram	= compile arbfp1 mainPS_Low();
+	}
+}

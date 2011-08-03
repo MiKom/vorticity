@@ -1,0 +1,56 @@
+struct vsinput
+{
+	float3	position	: POSITION;
+	float2	texcoord	: TEXCOORD0;
+};
+
+struct psinput
+{
+	float4	position	: POSITION;
+	float2	texcoord	: TEXCOORD0;
+};
+
+float4x4 ModelviewProjMatrix : V_MVP;
+sampler2D hdrSampler : V_COLOR0;
+sampler2D blurSampler : V_COLOR1;
+
+uniform float exposure;
+uniform float range;
+uniform float blur_amount;
+
+psinput mainVS(vsinput input)
+{
+	psinput output;
+	output.position = mul(ModelviewProjMatrix, float4(input.position, 1.0));
+	output.texcoord = input.texcoord;
+	return output;
+}
+
+float4 mainPS(psinput input) : COLOR
+{
+	float4 hdr			= tex2D(hdrSampler, input.texcoord);
+	float3 blur			= tex2D(blurSampler, input.texcoord);
+	float3 hdr_avg		= tex2Dlod(hdrSampler, float4(0.5, 0.5, 0.0, 10.0));
+	
+	// Reinhard's tone mapping equation.
+	// (see: http://www.cs.utah.edu/~reinhard/cdrom/tonemap.pdf)
+	float Lp = (exposure / hdr_avg.r) * max(hdr.r, max(hdr.g, hdr.b));
+	float Lm = (range) * (range);
+	//float toneMap = Lp / (1.0 + Lp);
+	float toneMap = (Lp * (1.0 + (Lp / Lm))) / (1.0 + Lp);
+
+	float3 out_color = toneMap * hdr.rgb + (blur_amount) * blur;
+	return float4(out_color, hdr.a);
+}
+
+technique technique0
+{
+	pass p0
+	{
+		DepthTestEnable = false;
+		CullFaceEnable	= false;
+
+		VertexProgram	= compile glslv mainVS();
+		FragmentProgram	= compile glslf mainPS();
+	}
+}

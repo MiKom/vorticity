@@ -1,3 +1,7 @@
+2011-08-03 Miłosz Kosobucki <milosz@mkosobucki.pl>
+	* added shaders to project
+	* added rotating_boxes example program
+
 2011-07-15 Miłosz Kosobucki <milosz@mkosobuki.pl>
 	* various fixes for gcc (and c++ standard compatibility)
 

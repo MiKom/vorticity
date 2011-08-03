@@ -1,0 +1,66 @@
+struct vsinput
+{
+	float3	position	: POSITION;
+	float2	texcoord	: TEXCOORD0;
+};
+
+struct psinput
+{
+	float4	position	: POSITION;
+	float2	texcoord	: TEXCOORD0;
+};
+
+float4x4 ModelviewProjMatrix : V_MVP;
+sampler2D colorSampler : V_COLOR0;
+
+int width  : V_COLOR0_WIDTH;
+int height : V_COLOR0_HEIGHT;
+uniform float threshold;
+
+psinput mainVS(vsinput input)
+{
+	psinput output;
+	output.position = mul(ModelviewProjMatrix, float4(input.position, 1.0));
+	output.texcoord = input.texcoord;
+	return output;
+}
+
+float4 mainPS(psinput input) : COLOR
+{
+	/* 4x4 linear downsampling
+	const float wtexel = 1.0 / float(width);
+	const float htexel = 1.0 / float(height);
+
+	float3 sum = tex2D(colorSampler, input.texcoord);
+	sum += tex2D(colorSampler, float2(input.texcoord.x - wtexel, input.texcoord.y));
+	sum += tex2D(colorSampler, float2(input.texcoord.x + wtexel, input.texcoord.y));
+	sum += tex2D(colorSampler, float2(input.texcoord.x, input.texcoord.y - htexel));
+	sum += tex2D(colorSampler, float2(input.texcoord.x, input.texcoord.y + htexel));
+	*/
+	
+	// Not entirely correct but fast
+	float3 color = tex2D(colorSampler, input.texcoord);
+
+	// Compute avg. luminance of the fragment
+	//float  brightness = dot(color, float3(0.3, 0.59, 0.11));
+
+	// Take maximum of it's components
+	float  brightness = max(color.r, max(color.g, color.b));
+
+	if(brightness > threshold)
+		return float4(color, 1.0);
+	else
+		return float4(0.0, 0.0, 0.0, 1.0);
+}
+
+technique technique0
+{
+	pass p0
+	{
+		DepthTestEnable = false;
+		CullFaceEnable	= false;
+
+		VertexProgram	= compile glslv mainVS();
+		FragmentProgram	= compile glslf mainPS();
+	}
+}

@@ -1,0 +1,44 @@
+struct vsinput
+{
+	float3	position	: POSITION;
+	float2	texcoord	: TEXCOORD0;
+};
+
+struct psinput
+{
+	float4	position	: POSITION;
+	float2	texcoord	: TEXCOORD0;
+};
+
+float4x4 ModelviewProjMatrix : V_MVP;
+sampler2D Sampler0;
+
+uniform int MaxSamplers : V_MAXSAMPLERS;
+
+psinput mainVS(vsinput input)
+{
+	psinput output;
+	output.position = mul(ModelviewProjMatrix, float4(input.position, 1.0));
+	output.texcoord = input.texcoord;
+	return output;
+}
+
+float4 mainPS(psinput input) : COLOR
+{
+	float4 color = float4(1.0, 1.0, 1.0, 1.0);
+	if(MaxSamplers > 0)
+		color *= tex2D(Sampler0, input.texcoord);
+	return color;
+}
+
+technique technique0
+{
+	pass p0
+	{
+		DepthTestEnable = true;
+		CullFaceEnable	= true;
+
+		VertexProgram	= compile arbvp1 mainVS();
+		FragmentProgram	= compile arbfp1 mainPS();
+	}
+}

@@ -1,0 +1,158 @@
+// Phong Lighting Shader
+// Vorticity Engine
+
+#define MAX_LIGHTS	4
+
+struct vsinput
+{
+	float3	position	: POSITION;
+	float3	normal		: NORMAL;
+	float2	texcoord	: TEXCOORD0;
+};
+
+struct psinput
+{
+	float4	position	: POSITION;
+	float2	texcoord	: TEXCOORD0;
+	float3	N;
+	float3  V;
+	float3	L[MAX_LIGHTS];
+	float3	R[MAX_LIGHTS];
+	float	exponent;
+};
+
+float4x4 ModelviewProjMatrix	: V_MVP;
+float4x4 ModelviewMatrix		: V_MODELVIEW;
+float4x4 ModelViewTransposed	: V_MVIT;
+float3 EyePos					: V_EYEPOS;
+
+uniform int	LightCount	: V_MAXLIGHTS;
+
+sampler2D Sampler0;
+
+uniform float3	MaterialDiffuse;
+uniform float3	MaterialAmbient;
+uniform float3	MaterialSpecular;
+uniform float	MaterialSpecLevel;
+uniform float	MaterialGloss;
+uniform float3	MaterialEmissive;
+
+uniform float3	LightDiffuse[MAX_LIGHTS];
+uniform float3	LightSpecular[MAX_LIGHTS];
+uniform float3	LightAmbient[MAX_LIGHTS];
+uniform float3	LightPosition[MAX_LIGHTS];
+
+void calcLR(int i, float4 wp, float3 N, out float3 L, out float3 R)
+{
+	if(LightCount > i)
+	{
+		L = normalize((LightPosition[i]) - wp.xyz);
+		R = reflect(-L, N);
+	}
+}
+
+float3 phong(int i, float3 N, float3 V, psinput pi)
+{
+	if(LightCount <= i)
+		return float3(0.0, 0.0, 0.0);
+
+	float3 color = (MaterialAmbient) * (LightAmbient[i]);
+
+	float3 L = normalize(pi.L[i]);
+	float3 R = normalize(pi.R[i]);
+
+	float	dotNL = max(dot(N, L), 0.0);
+	color += (LightDiffuse[i]) * (MaterialDiffuse) * dotNL;
+	/*if(dotNL > 0.0)
+		color += (LightSpecular[i]) * (MaterialSpecLevel) * (MaterialSpecular) * pow(max(dot(V, R), 0.0), 10.0);
+		*/
+	return color;
+}
+
+psinput mainVS_Low(vsinput input)
+{
+	psinput output;
+	output.texcoord = input.texcoord;
+	output.position = mul(ModelviewProjMatrix, float4(input.position, 1.0));
+	float4 worldPosition = mul(ModelviewMatrix, float4(input.position, 1.0));
+
+	output.N = mul(ModelViewTransposed, float4(input.normal, 1.0)).xyz;
+	output.V = normalize(EyePos - worldPosition.xyz);
+	output.exponent = MaterialGloss * 100.0;
+
+	calcLR(0, worldPosition, output.N, output.L[0], output.R[0]);
+	calcLR(1, worldPosition, output.N, output.L[1], output.R[1]);
+	return output;
+}
+
+psinput mainVS_High(vsinput input)
+{
+	psinput output;
+	output.texcoord = input.texcoord;
+	output.position = mul(ModelviewProjMatrix, float4(input.position, 1.0));
+	float4 worldPosition = mul(ModelviewMatrix, float4(input.position, 1.0));
+
+	output.N = mul(ModelViewTransposed, float4(input.normal, 1.0)).xyz;
+	output.V = normalize(EyePos - worldPosition.xyz);
+	output.exponent = 1.0; //MaterialGloss * 100.0;
+
+	calcLR(0, worldPosition, output.N, output.L[0], output.R[0]);
+	calcLR(1, worldPosition, output.N, output.L[1], output.R[1]);
+	calcLR(2, worldPosition, output.N, output.L[2], output.R[2]);
+	calcLR(3, worldPosition, output.N, output.L[3], output.R[3]);
+	return output;
+}
+
+float4 mainPS_Low(psinput input) : COLOR
+{
+	float3 N = normalize(input.N);
+	float3 V = normalize(input.V);
+
+	float3	color = (MaterialEmissive);
+	color += phong(0, N, V, input);
+	//color += phong(1, N, V, input);
+
+	color *= tex2D(Sampler0, input.texcoord);
+	return float4(color, 1.0);
+}
+
+float4 mainPS_High(psinput input) : COLOR
+{
+	float3 N = normalize(input.N);
+	float3 V = normalize(input.V);
+
+	float3	color = (MaterialEmissive);
+	color += phong(0, N, V, input);
+	//color += phong(1, N, V, input);
+	//color += phong(2, N, V, input);
+	//color += phong(3, N, V, input);
+
+	color *= tex2D(Sampler0, input.texcoord);
+	return float4(color, 1.0);
+}
+
+// NVIDIA GeForce 8 or above (4 lights)
+technique HighEndNVidia
+{
+	pass p0
+	{
+		DepthTestEnable = true;
+		CullFaceEnable  = true;
+
+		VertexProgram	= compile gp4vp mainVS_High();
+		FragmentProgram	= compile gp4fp mainPS_High();
+	}
+}
+
+// NVIDIA GeForce FX, Radeon 9500 or above (2 lights)
+technique LowEndAllVendors
+{
+	pass p0
+	{
+		DepthTestEnable = true;
+		CullFaceEnable	= true;
+
+		VertexProgram	= compile arbvp1 mainVS_Low();
+		FragmentProgram	= compile arbfp1 mainPS_Low();
+	}
+}

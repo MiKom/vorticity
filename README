@@ -1,0 +1,14 @@
+1. Building
+
+1.1 Windows
+
+To build on windows, you need DevIL and GLEW in proper directories. GLEW is expected to be in "Program Files\GLEW" (32bit builds and native 64bit builds) or "Program Files (x86)\GLEW" (32bit builds on 64bit machines).
+
+DevIL must have it's directory appended to %PATH% environment variable. There is bug in cmake FindDevIL.cmake module. I tries to search for il.h instead of IL/il.h so you have to change FindDevIL.cmake module in [cmake_root]/share/Modules to look for IL/il.h.
+Change line:
+
+FIND_PATH(IL_INCLUDE_DIR il.h 
+
+to:
+
+FIND_PATH(IL_INCLUDE_DIR IL/il.h 

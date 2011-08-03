@@ -91,7 +91,7 @@ protected:
 protected:
 	inline float getInternalTime() const
 	{
-		return (float)getAttrib("factor") * getCore()->getTimer().getElapsed();
+		return (float)getAttrib("factor") * getCore()->getTimer()->getElapsed();
 	}
 protected:
 	KeyframeController(const string& name, XNode *parent=NULL)
@@ -180,7 +180,7 @@ public:
 			tmp_index++;
 			tmp_time[1] = tmp_time[0];
 		}
-		tmp_index = max(tmp_index-1, 0);
+		tmp_index = std::max(tmp_index-1, 0);
 		if(index) *index = tmp_index;
 		if(time)  *time  = tmp_time[1];
 		if(value) *value = ((ArrayAttribute&)getAttrib("values")).getAt(tmp_index);

@@ -57,7 +57,7 @@ typedef struct _CGcontext *CGcontext;
 #ifdef WIN32
 	#include "platforms/win32/win32.h"
 #else
-	#include "platforms/linux/linux.h"
+	#include "platforms/x11/x11.h"
 #endif
 
 #include "core/core.h"

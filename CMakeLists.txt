@@ -294,7 +294,23 @@ set (vorticity_ADDITIONAL_LIBRARIES)
 		)
 		
 		set(vorticity_ADDITIONAL_LIBRARIES ${vorticity_ADDITIONAL_LIBRARIES} winmm.lib)
+	elseif(APPLE)
+		message (FATAL_ERROR "Building on Apple is not supported")
+	elseif(UNIX)
+		source_group(platforms\\Sources\\x11 REGULAR_EXPRESSION "[/\\]src[/\\]platforms[/\\].*\\.cpp")
+		source_group("platforms\\Public Headers\\x11" REGULAR_EXPRESSION "[/\\]include[/\\]vorticity[/\\]platforms[/\\].*")
+		source_group("platforms\\Private Headers\\x11" REGULAR_EXPRESSION "[/\\]src[/\\]platforms[/\\].*\\.h")
+
+		set (vorticity_platforms_PUBLIC_HEADERS
+			include/vorticity/platforms/x11/x11.h
+		)
+		set (vorticity_platforms_PRIVATE_HEADERS
+		)
+		set (vorticity_platforms_SRCS
+			src/platforms/x11/x11.cpp
+		)
 	else(WIN32)
+		message (FATAL_ERROR "Error: Building on unkown platform")
 	endif(WIN32)
 	
 	set (vorticity_SRCS ${vorticity_SRCS} ${vorticity_platforms_SRCS})

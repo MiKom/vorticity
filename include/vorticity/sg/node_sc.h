@@ -28,7 +28,7 @@ template <class T>
 class NodeSC : public KeyframeController<T>
 {
 public:
-	NodeSC(const string& name, XNode *parent=NULL) : KeyframeController(name, parent)
+	NodeSC(const string& name, XNode *parent=NULL) : KeyframeController<T>(name, parent)
 	{ }
 	virtual ~NodeSC()
 	{ }
@@ -40,8 +40,8 @@ public:
 
 	virtual bool getStatus() const
 	{	
-		ArrayAttribute &keys = (ArrayAttribute&)getAttrib("keys");
-		ArrayAttribute &values = (ArrayAttribute&)getAttrib("values");
+		ArrayAttribute &keys = (ArrayAttribute&)this->getAttrib("keys");
+		ArrayAttribute &values = (ArrayAttribute&)this->getAttrib("values");
 
 		size_t ikeys	= keys.getCount();
 		size_t ivalues	= values.getCount();
@@ -58,8 +58,8 @@ public:
 		T value[4];
 
 		//if(!getStatus()) return;
-		float frameTime = getTime();
-		int count = getKeyCount();
+		float frameTime = this->getTime();
+		int count = this->getKeyCount();
 		if(!getKey(frameTime, &index, &time[1], &value[1]))
 			return;
 		if(index >= count-1)

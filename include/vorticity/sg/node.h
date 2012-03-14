@@ -67,7 +67,7 @@ protected:
 	{ return false; }
 
 	template <class T>
-        bool writeOutput(const T& value, bool updateTransform=true) const;
+	bool writeOutput(const T& value, bool updateTransform=true) const;
 
 public:
 	virtual ~Node();
@@ -84,8 +84,8 @@ public:
 	bool			removeAttrib(const int index);
 	bool			isAffectedBy(Node *pnode) const;
 
-        inline NodeConstIterator enumAffectedBy(const size_t index) const;
-        inline Node* getAffectedBy(NodeConstIterator &it) const;
+	inline NodeConstIterator enumAffectedBy(const size_t index) const;
+	inline Node* getAffectedBy(NodeConstIterator &it) const;
 
 	inline AttributeIterator enumAttributes(const size_t index) const;
 	inline AnyAttribute* getAttrib(AttributeIterator &it) const;
@@ -149,11 +149,11 @@ public:
 	virtual string getClass() const	{ return "node"; }
 
 	// "graph-new" implementation
-        template <class T> inline friend T& gnew(const string& name, XNode& parent)
+	template <class T> inline friend T& gnew(const string& name, XNode& parent)
 	{ return (T&)*new T(name, &parent); }
-        template <class T> inline friend T& gnew(const string& name, XNode* parent)
+	template <class T> inline friend T& gnew(const string& name, XNode* parent)
 	{ return (T&)*new T(name, parent);	}
-        template <class T> inline friend T& gnew(const string& name)
+	template <class T> inline friend T& gnew(const string& name)
 	{ return (T&)*new T(name, NULL);	}
 
 	virtual void setupShader(const int shader, Renderer *device)

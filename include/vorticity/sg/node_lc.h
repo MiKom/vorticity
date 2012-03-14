@@ -40,8 +40,8 @@ public:
 
 	virtual bool getStatus() const
 	{	
-		ArrayAttribute &keys = (ArrayAttribute&)getAttrib("keys");
-		ArrayAttribute &values = (ArrayAttribute&)getAttrib("values");
+		ArrayAttribute &keys = (ArrayAttribute&)this->getAttrib("keys");
+		ArrayAttribute &values = (ArrayAttribute&)this->getAttrib("values");
 
 		size_t ikeys	= keys.getCount();
 		size_t ivalues	= values.getCount();
@@ -59,11 +59,11 @@ public:
 
 		//if(!getStatus()) return;
 
-		float frameTime = getTime();
+		float frameTime = this->getTime();
 		if(!getKey(frameTime, &index, &time[0], &value[0]))
 			return;
 
-		ArrayAttribute& keys = (ArrayAttribute&)getAttrib("keys");
+		ArrayAttribute& keys = (ArrayAttribute&)this->getAttrib("keys");
 		if((size_t)index >= keys.getCount()-1)
 		{
 			writeOutput<T>(value[0]);

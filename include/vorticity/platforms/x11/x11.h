@@ -24,7 +24,7 @@
 
 #define PlatformBase Vorticity::X11_Application
 
-#define VORTICITY_APPLICATION(app_clas) \
+#define VORTICITY_APPLICATION(app_class) \
 	int main(int argc, char **argv) { \
 	return Vorticity::X11_Application::main(argc, argv, new app_class); }
 
@@ -34,11 +34,14 @@ namespace Vorticity
 class VAPI X11_Application : public Application
 {
 public:
+	X11_Application();
+	virtual ~X11_Application();
+
 	bool	initialize();
 	void	shutdown();
 
 	int	run();
-	void	showWindow();
+	void	showWindow(bool s);
 	void	showMessage(const std::string& msg);
 	void	showMessage(const std::string& title, const std::string& msg);
 	void	die(const std::string& msg="", int retcode=1);
@@ -53,7 +56,7 @@ public:
 	bool	mouseButtonPressed(const int btn);
 	bool	keyPressed(const char k);
 
-	int	main(int argc, char **argv);
+	static int main(int argc, char **argv, Application *theApp);
 };
 } // Vorticity
 

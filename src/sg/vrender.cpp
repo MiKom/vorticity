@@ -106,7 +106,9 @@ void RenderVisitor::createNodeCache(XNode *node, ModifierCache &cache)
 	cache.setNode(node);
 }
 
-// WARNING: See adnotation in header file.
+/**
+  \warning See adnotation in header file.
+ */
 void RenderVisitor::createRenderGroups(XNode *node, ModifierCache cache)
 {
 	if(!node->isEnabled())

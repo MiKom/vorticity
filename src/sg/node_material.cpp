@@ -74,7 +74,7 @@ bool NodeMaterial::bind(Resource *res)
 #ifdef _MSC_VER //retarded compiler
 		sprintf_s<256>(samplerName, "Sampler%d", textureIndex++);
 #else
-		snprintf(samplerName, 256, "Sampler%d", textureIndex++);
+		snprintf(samplerName, 256, "Sampler%zd", textureIndex++);
 #endif
 		setSampler(samplerName, textureImage->getID());
 	}
@@ -103,22 +103,28 @@ int NodeMaterial::getSampler(const string& name) const
 
 void NodeMaterial::setupShader(const int shader, Renderer *device)
 {
-        //INFO: This cast of last parameter to Attribute constructor is to make the cast for exact type
-        // that Attribute constructor expects i.e. const T&
-	device->setShaderParameter(shader,
-                &Attribute<vector3>("MaterialDiffuse", static_cast<const vec3&>(getAttrib("diffuse"))));
-	device->setShaderParameter(shader,
-                &Attribute<vector3>("MaterialAmbient", static_cast<const vec3&>(getAttrib("ambient"))));
-	device->setShaderParameter(shader,
-                &Attribute<vector3>("MaterialSpecular", static_cast<const vec3&>(getAttrib("specular"))));
-	device->setShaderParameter(shader,
-                &Attribute<float>("MaterialGloss", static_cast<const float&>(getAttrib("glossiness"))));
-	device->setShaderParameter(shader,
-                &Attribute<float>("MaterialSpecLevel", static_cast<const float&>(getAttrib("specular_level"))));
-	device->setShaderParameter(shader,
-                &Attribute<vector3>("MaterialEmissive", static_cast<const vec3&>(getAttrib("emissive"))));
+	//INFO: This cast of last parameter to Attribute constructor is to make the cast for exact type
+	// that Attribute constructor expects i.e. const T&
+	Attribute<vector3> matDiffuse("MaterialDiffuse", static_cast<const vec3&>(getAttrib("diffuse")));
+	device->setShaderParameter(shader, &matDiffuse);
 
-	device->setShaderParameterBySemantic(shader, &Attribute<int>("V_MAXSAMPLERS", (int)samplers.size()));
+	Attribute<vector3> matAmbient("MaterialAmbient", static_cast<const vec3&>(getAttrib("ambient")));
+	device->setShaderParameter(shader, &matAmbient);
+
+	Attribute<vector3> matSpecular("MaterialSpecular", static_cast<const vec3&>(getAttrib("specular")));
+	device->setShaderParameter(shader, &matSpecular);
+
+	Attribute<float> matGloss("MaterialGloss", static_cast<const float&>(getAttrib("glossiness")));
+	device->setShaderParameter(shader, &matGloss);
+
+	Attribute<float> matSpecLevel("MaterialSpecLevel", static_cast<const float&>(getAttrib("specular_level")));
+	device->setShaderParameter(shader, &matSpecLevel);
+
+	Attribute<vector3> matEmissive("MaterialEmissive", static_cast<const vec3&>(getAttrib("emissive")));
+	device->setShaderParameter(shader, &matEmissive);
+
+	Attribute<int> maxSamplers("V_MAXSAMPLERS", (int)samplers.size());
+	device->setShaderParameterBySemantic(shader, &maxSamplers);
 	for(auto i=samplers.begin(); i != samplers.end(); i++)
 		device->setShaderSampler(shader, i->first, i->second);
 }

@@ -84,10 +84,10 @@ int PostProcessHDR::render()
 	setShaderParameters(extractShader);
 	setShaderParameters(tonemapShader);
 
-	device->setShaderParameterBySemantic(extractShader->getID(),
-		&Attribute<int>("V_COLOR0_WIDTH", w));
-	device->setShaderParameterBySemantic(extractShader->getID(),
-		&Attribute<int>("V_COLOR0_HEIGHT", h));
+	Attribute<int> width("V_COLOR0_WIDTH", w);
+	device->setShaderParameterBySemantic(extractShader->getID(), &width);
+	Attribute<int> height("V_COLOR0_HEIGHT", h);
+	device->setShaderParameterBySemantic(extractShader->getID(), &height);
 
 	ShaderPass p;
 	int target;

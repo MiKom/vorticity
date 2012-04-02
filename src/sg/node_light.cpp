@@ -53,14 +53,17 @@ void NodeLight::evaluate()
 
 void NodeLight::setupShader(const int shader, Renderer *device, const int index)
 {
-        //INFO: This cast of last parameter to Attribute constructor is to make the cast for exact type
-        // that Attribute constructor expects i.e. const T&
-        device->setShaderParameter(shader,
-                &Attribute<vec3>("LightAmbient", static_cast<const vec3&>(getAttrib("ambient"))), index);
-	device->setShaderParameter(shader,
-                &Attribute<vec3>("LightDiffuse", static_cast<const vec3&> (getAttrib("diffuse"))), index);
-	device->setShaderParameter(shader,
-                &Attribute<vec3>("LightSpecular", static_cast<const vec3&> (getAttrib("specular"))), index);
-	device->setShaderParameter(shader,
-		&Attribute<vec3>("LightPosition", worldPosition), index);
+	//INFO: This cast of last parameter to Attribute constructor is to make the cast for exact type
+	// that Attribute constructor expects i.e. const T&
+	Attribute<vec3> ambientParam("LightAmbient", static_cast<const vec3&>(getAttrib("ambient")));
+	device->setShaderParameter(shader, &ambientParam, index);
+
+	Attribute<vec3> diffuseParam("LightDiffuse", static_cast<const vec3&> (getAttrib("diffuse")));
+	device->setShaderParameter(shader, &diffuseParam, index);
+
+	Attribute<vec3> specularParam("LightSpecular", static_cast<const vec3&> (getAttrib("specular")));
+	device->setShaderParameter(shader, &specularParam, index);
+
+	Attribute<vec3> worldPosParam("LightPosition", worldPosition);
+	device->setShaderParameter(shader, &worldPosParam, index);
 }

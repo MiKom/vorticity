@@ -57,7 +57,7 @@ void ImageLoader::read()
 	ILenum error;
 	if((error = ilGetError()) != IL_NO_ERROR){
 		while((error = ilGetError()) != IL_NO_ERROR);
-		ilBindImage(NULL);
+		ilBindImage(0);
 		ilDeleteImages(1, &imageId);
 		throw IOException("Cannot load image", path, IOBase::ReadError);
 	}
@@ -71,6 +71,6 @@ void ImageLoader::read()
 
 	img->setPixels(ilGetData());
 	
-	ilBindImage(NULL);
+	ilBindImage(0);
 	ilDeleteImages(1, &imageId);
 }

@@ -175,10 +175,11 @@ int PostProcess::beginBuffer(const int buffer, const int shader)
 {
 	int w,h;
 	device->getFeedbackBufferProperties(buffer, &w, &h, NULL);
-	device->setShaderParameterBySemantic(shader,
-		&Attribute<int>("V_WIDTH", w));
-	device->setShaderParameterBySemantic(shader,
-		&Attribute<int>("V_HEIGHT", h));
+
+	Attribute<int> width("V_WIDTH", w);
+	device->setShaderParameterBySemantic(shader, &width);
+	Attribute<int> height("V_HEIGHT", h);
+	device->setShaderParameterBySemantic(shader, &height);
 	return device->bindFeedbackBuffer(buffer);
 }
 
@@ -186,10 +187,10 @@ int PostProcess::swapBuffer(const int buffer, const int shader)
 {
 	int w,h;
 	device->getFeedbackBufferProperties(buffer, &w, &h, NULL);
-	device->setShaderParameterBySemantic(shader,
-		&Attribute<int>("V_WIDTH", w));
-	device->setShaderParameterBySemantic(shader,
-		&Attribute<int>("V_HEIGHT", h));
+	Attribute<int> width("V_WIDTH", w);
+	device->setShaderParameterBySemantic(shader, &width);
+	Attribute<int> height("V_HEIGHT", h);
+	device->setShaderParameterBySemantic(shader, &height);
 	return device->swapFeedbackBuffer(buffer);
 }
 

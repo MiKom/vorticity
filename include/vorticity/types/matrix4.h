@@ -54,7 +54,7 @@ public:
 	/**
 	 * Creates new matrix by copying 16 double-precision values from
 	 * data pointer \n
-	 * WARNING: Some precision is lost due to double to float conversion
+	 * \warning Some precision is lost due to double to float conversion
 	 * \param data pointer to 16 double values
 	 **/
 	matrix4(double *data){
@@ -131,7 +131,7 @@ public:
 		return result;
 	}
 
-	// (TODO: optimize!)
+	// TODO: optimize!
 	//! multiplication 
 	matrix4 operator * (const matrix4 &m) const
 	{

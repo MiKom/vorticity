@@ -59,8 +59,11 @@ bool Backdrop::draw()
 		device->setShaderMatrix(shaderID, ModelviewProjMatrix, "V_MVP");
 		device->setShaderMatrix(shaderID, NormalMatrix, "V_MVIT");
 
-		device->setShaderParameterBySemantic(shaderID, &Attribute<int>("V_WIDTH", target_w));
-		device->setShaderParameterBySemantic(shaderID, &Attribute<int>("V_HEIGHT", target_h));
+		Attribute<int> width("V_WIDTH", target_w);
+		device->setShaderParameterBySemantic(shaderID, &width);
+
+		Attribute<int> height("V_HEIGHT", target_h);
+		device->setShaderParameterBySemantic(shaderID, &height);
 		device->setShaderSamplerBySemantic(shaderID, "V_COLOR0", target);
 
 		ShaderPass pass = device->firstShaderPass(shader->getID());

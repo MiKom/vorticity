@@ -64,7 +64,7 @@ public:
 			return;
 		if(index >= count-1)
 		{
-			writeOutput<T>(value[1]);
+			Node::writeOutput<T>(value[1]);
 			return;
 		}
 
@@ -74,7 +74,7 @@ public:
 
 		float t = (time[2] - frameTime) / (time[2] - time[1]);
 		T out_value = Math::catmullRom(1.0f - t, value[0], value[1], value[2], value[3]);
-		writeOutput<T>(out_value);
+		Node::writeOutput<T>(out_value);
 	}
 };
 

@@ -66,7 +66,7 @@ public:
 		ArrayAttribute& keys = (ArrayAttribute&)this->getAttrib("keys");
 		if((size_t)index >= keys.getCount()-1)
 		{
-			writeOutput<T>(value[0]);
+			Node::writeOutput<T>(value[0]);
 			return;
 		}
 		
@@ -75,7 +75,7 @@ public:
 		float t = (time[1] - frameTime) / (time[1] - time[0]);
 		// Linear interpolation between value[0] and value[1]
 		T out_value = Math::lerp(t, value[0], value[1]);
-		writeOutput<T>(out_value);
+		Node::writeOutput<T>(out_value);
 	}
 };
 

@@ -30,8 +30,10 @@ bool Sandbox::onInitialize()
 
 	try 
 	{
-		phong_shader = new Shader(TextLoader("shaders/lambert.cgfx"));
-		debug_shader = new Shader(TextLoader("shaders/debug.cgfx"));
+		TextLoader lambertLoader("shaders/lambert.cgfx");
+		phong_shader = new Shader(lambertLoader);
+		TextLoader debugLoader("shaders/debug.cgfx");
+		debug_shader = new Shader(debugLoader);
 	} 
 	catch (IOException& e) {
 		showMessage(e.getMessage());
@@ -93,7 +95,8 @@ bool Sandbox::onInitialize()
 	lc3 = &rot_lc;
 
 	ppfx = new PostProcessSimple(device);
-	ppfx->addShader("blit", new Shader(TextLoader("shaders/simple.cgfx")));
+	TextLoader shaderLoader("shaders/simple.cgfx");
+	ppfx->addShader("blit", new Shader(shaderLoader));
 	ppfx->addSource("color", &camera);
 	ppfx->validate();
 

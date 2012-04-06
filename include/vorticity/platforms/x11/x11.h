@@ -47,10 +47,16 @@ public:
 	void	die(const std::string& msg="", int retcode=1);
 	void	die(const std::string& title, const std::string& msg, int retcode=1);
 
-	time_t	getTimeResolution() const;
+	time_t	getTimeResolution() const {
+		//TODO:: implement
+	}
 	time_t	getTime() const;
-	int	getClientWidth() const;
-	int	getClientHeight() const;
+	int	getClientWidth() const {
+		//TODO: implement
+	}
+	int	getClientHeight() const {
+		//TODO: implement
+	}
 
 	void	getMousePosition(int& x, int& y);
 	bool	mouseButtonPressed(const int btn);

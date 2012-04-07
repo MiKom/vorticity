@@ -23,7 +23,7 @@ cmake_minimum_required (VERSION 2.6)
 
 project(vorticity)
 
-set (CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${PROJECT_SOURCE_DIR}/CMakeModules)
+set (CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/CMakeModules")
 
 include(${PROJECT_SOURCE_DIR}/CMakeModules/DetermineProcessor.cmake)
 
@@ -39,7 +39,7 @@ endif(DYNAMIC_VORTICITY)
 
 # setting c++0x support in gcc
 if(${CMAKE_COMPILER_IS_GNUCXX})
-	set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} -std=c++0x)
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x")
 endif(${CMAKE_COMPILER_IS_GNUCXX})
 
 #containers for source files, public header files, private header files and additional libraries

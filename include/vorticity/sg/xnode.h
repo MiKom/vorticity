@@ -95,6 +95,16 @@ public:
 	virtual string	getClass() const	{ return "xnode"; }
 };
 
+NodeConstIterator XNode::enumChildren(const size_t index) const
+{ return children.begin() + index; }
+
+Node* XNode::getChild(NodeConstIterator &it) const
+{
+	if(it == children.end())
+		return NULL;
+	return (*it++);
+}
+
 class VAPI Group : public XNode
 {
 public:

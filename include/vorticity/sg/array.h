@@ -53,13 +53,13 @@ public:
 
 	AnyAttribute&			getAt(const size_t index) const;
 	AnyAttribute&			getByName(const string& name) const;
-	inline AnyAttribute&	front() const;
-	inline AnyAttribute&	back() const;
+	AnyAttribute&	front() const;
+	AnyAttribute&	back() const;
 
 	bool			setAt(const size_t index, AnyAttribute *attrib);
-	inline void		push(AnyAttribute *attrib);
-	inline bool		pop(AnyAttribute *attrib);
-	inline bool		pop();
+	void		push(AnyAttribute *attrib);
+	bool		pop(AnyAttribute *attrib);
+	bool		pop();
 	bool			remove(const size_t index);
 	bool			remove(const size_t start, const size_t end);
 	void			clear();
@@ -75,6 +75,20 @@ public:
 	AnyAttribute& operator[](const string &name) const
 	{ return getByName(name); }
 };
+
+inline AnyAttribute& ArrayAttribute::front() const
+{
+	if(values.size() == 0)
+		return NullAttribute::Null;
+	return *values.front();
+}
+
+inline AnyAttribute& ArrayAttribute::back() const
+{
+	if(values.size() == 0)
+		return NullAttribute::Null;
+	return *values.back();
+}
 
 } // Vorticity
 

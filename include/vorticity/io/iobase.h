@@ -57,8 +57,8 @@ private:
 public:
 	virtual ~IOBase();
 
-	inline bool 	isStreamOpen() const;
-	inline bool 	isStreamEof();
+	bool 	isStreamOpen() const;
+	bool 	isStreamEof();
 	const size_t 	getStreamLength();
 
 	const std::string& getPath() const		{ return path; 		}
@@ -75,6 +75,16 @@ public:
 		Unknown,
 	};
 };
+
+inline bool IOBase::isStreamOpen() const
+{
+	return file.is_open();
+}
+
+inline bool IOBase::isStreamEof()
+{
+	return ((size_t)file.tellg()) == getStreamLength();
+}
 
 class VAPI FileReader : public virtual IOBase
 {

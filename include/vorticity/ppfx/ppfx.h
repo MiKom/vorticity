@@ -49,11 +49,11 @@ protected:
 	virtual bool		validateBuffer(int &buffer, FramebufferFormat format, const int w, const int h);
 	virtual bool		validateBuffer(int &buffer, FramebufferFormat format, const NodeCamera *src);
 
-	inline bool			setSampler(const int shader, const string& name, const int texture);
+	bool			setSampler(const int shader, const string& name, const int texture);
 	int					beginBuffer(const int buffer, const int shader);
 	int					swapBuffer(const int buffer, const int shader);
-	inline  int			swapBuffer(const int buffer);
-	inline	void		endBuffer();
+	int			swapBuffer(const int buffer);
+	void		endBuffer();
 public:
 	virtual ~PostProcess();
 
@@ -78,6 +78,15 @@ public:
 	virtual int		render() = 0;
 	virtual bool	validate() = 0;
 };
+
+inline int PostProcess::swapBuffer(const int buffer)
+{ return device->swapFeedbackBuffer(buffer); }
+
+inline void PostProcess::endBuffer()
+{ device->bindFeedbackBuffer(0); }
+
+inline bool PostProcess::setSampler(const int shader, const string &name, const int texture)
+{ return device->setShaderSamplerBySemantic(shader, name, texture); }
 
 } // Vorticity
 

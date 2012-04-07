@@ -193,12 +193,3 @@ int PostProcess::swapBuffer(const int buffer, const int shader)
 	device->setShaderParameterBySemantic(shader, &height);
 	return device->swapFeedbackBuffer(buffer);
 }
-
-int PostProcess::swapBuffer(const int buffer)
-{ return device->swapFeedbackBuffer(buffer); }
-
-void PostProcess::endBuffer()
-{ device->bindFeedbackBuffer(0); }
-
-bool PostProcess::setSampler(const int shader, const string &name, const int texture)
-{ return device->setShaderSamplerBySemantic(shader, name, texture); }

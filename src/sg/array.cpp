@@ -64,20 +64,6 @@ AnyAttribute& ArrayAttribute::getByName(const string &name) const
 	return NullAttribute::Null;
 }
 
-inline AnyAttribute& ArrayAttribute::front() const
-{
-	if(values.size() == 0)
-		return NullAttribute::Null;
-	return *values.front();
-}
-
-inline AnyAttribute& ArrayAttribute::back() const
-{ 
-	if(values.size() == 0)
-		return NullAttribute::Null;
-	return *values.back();
-}
-
 bool ArrayAttribute::setAt(const size_t index, Vorticity::AnyAttribute *attrib)
 {
 	if(index >= values.size())

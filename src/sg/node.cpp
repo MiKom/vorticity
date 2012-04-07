@@ -47,18 +47,6 @@ Node::~Node()
 		delete it->second;
 }
 
-inline const string& Node::getName() const
-{ return name; }
-
-inline void Node::setName(const string &name)
-{ this->name = const_cast<string&>(name); }
-
-inline XNode* Node::getParent() const
-{ return parent; }
-
-inline void Node::setParent(Vorticity::XNode *parent)
-{ this->parent = parent; }
-
 AnyAttribute& Node::addAttrib(Vorticity::AnyAttribute *attrib, bool replace)
 {
 	if(!attrib) return NullAttribute::Null;
@@ -131,9 +119,6 @@ bool Node::isAffectedBy(Vorticity::Node *pnode) const
 	}
 	return false;
 }
-
-inline void Node::addToAffectedBy(Vorticity::Node *pnode)
-{ affectedBy.push_back(pnode); }
 
 bool Node::removeFromAffectedBy(Vorticity::Node *pnode)
 {

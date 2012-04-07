@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright © 2009, 2010 Michał Siejak
  *
  * All rights reserved.
@@ -59,8 +59,8 @@ protected:
 protected:
 	Node(const string &name, XNode* parent=NULL);
 
-	inline void		setParent(XNode *parent);
-	inline void		addToAffectedBy(Node *pnode);
+	void		setParent(XNode *parent);
+	void		addToAffectedBy(Node *pnode);
 	bool			removeFromAffectedBy(Node *pnode);
 	bool			removeFromConnectedTo(Node *pnode);
 	virtual bool	isTypeCompatible(const string &type) const
@@ -84,11 +84,11 @@ public:
 	bool			removeAttrib(const int index);
 	bool			isAffectedBy(Node *pnode) const;
 
-	inline NodeConstIterator enumAffectedBy(const size_t index) const;
-	inline Node* getAffectedBy(NodeConstIterator &it) const;
+	NodeConstIterator enumAffectedBy(const size_t index) const;
+	Node* getAffectedBy(NodeConstIterator &it) const;
 
-	inline AttributeIterator enumAttributes(const size_t index) const;
-	inline AnyAttribute* getAttrib(AttributeIterator &it) const;
+	AttributeIterator enumAttributes(const size_t index) const;
+	AnyAttribute* getAttrib(AttributeIterator &it) const;
 
 	virtual bool	canConnectTo(Node *pnode, const string &attrib="", const int index=0) const;
 	virtual bool	isConnectedTo(Node *pnode, const string &attrib="", const int index=0) const;
@@ -149,11 +149,11 @@ public:
 	virtual string getClass() const	{ return "node"; }
 
 	// "graph-new" implementation
-	template <class T> inline friend T& gnew(const string& name, XNode& parent)
+	template <class T> friend T& gnew(const string& name, XNode& parent)
 	{ return (T&)*new T(name, &parent); }
-	template <class T> inline friend T& gnew(const string& name, XNode* parent)
+	template <class T> friend T& gnew(const string& name, XNode* parent)
 	{ return (T&)*new T(name, parent);	}
-	template <class T> inline friend T& gnew(const string& name)
+	template <class T> friend T& gnew(const string& name)
 	{ return (T&)*new T(name, NULL);	}
 
 	virtual void setupShader(const int shader, Renderer *device)
@@ -165,6 +165,21 @@ public:
 	virtual void evaluate()						{ }
 	virtual void render(Renderer *device)		{ }
 };
+
+inline const string& Node::getName() const
+{ return name; }
+
+inline void Node::setName(const string &name)
+{ this->name = const_cast<string&>(name); }
+
+inline XNode* Node::getParent() const
+{ return parent; }
+
+inline void Node::setParent(Vorticity::XNode *parent)
+{ this->parent = parent; }
+
+inline void Node::addToAffectedBy(Vorticity::Node *pnode)
+{ affectedBy.push_back(pnode); }
 
 } // Vorticity
 

@@ -51,9 +51,9 @@ typedef struct _CGcontext *CGcontext;
 #include "types/math.h"
 
 // Vorticity:Core
-#include "core/renderer.h"
-#include "core/fonts.h"
-#include "core/application.h"
+#include "vorticity/core/renderer.h"
+#include "vorticity/core/fonts.h"
+#include "vorticity/core/application.h"
 #ifdef WIN32
 	#include "platforms/win32/win32.h"
 #else

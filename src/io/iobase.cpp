@@ -33,11 +33,6 @@ IOBase::~IOBase()
 		file.close();
 }
 
-inline bool IOBase::isStreamOpen() const
-{ 
-	return file.is_open(); 
-}
-
 const size_t IOBase::getStreamLength()
 {
 	std::streamoff pos = file.tellg();
@@ -45,11 +40,6 @@ const size_t IOBase::getStreamLength()
 	std::streamoff length = file.tellg();
 	file.seekg(pos, std::ios_base::beg);
 	return (size_t)length;
-}
-
-inline bool IOBase::isStreamEof()
-{
-	return ((size_t)file.tellg()) == getStreamLength();
 }
 
 IOException::IOException(const std::string& msg, const std::string& path, const int err)

@@ -37,11 +37,6 @@ Core* Vorticity::getCore()
 	return &theCore;
 }
 
-inline std::ostream& Vorticity::log()
-{
-	return getCore()->getLog();
-}
-
 Core::Core() : vlog(NULL), theApp(NULL), device(NULL)
 {
 	defaultSet = new ResourceSet();

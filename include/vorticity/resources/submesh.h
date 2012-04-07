@@ -42,33 +42,33 @@ public:
 	SubMesh* 	getMesh() 				{ return mesh; 			}
 	void		setMesh(SubMesh* mesh)	{ this->mesh = mesh; 	}
 
-	inline const uint32_t& 	getVertexIndex(const size_t i) const;
-	inline const bool		getVertexIndex(const size_t i, uint32_t& index);
-	inline const uint32_t& 	getNormalIndex(const size_t i) const;
-	inline const bool		getNormalIndex(const size_t i, uint32_t& index);
-	inline const uint32_t& 	getTexCoordIndex(const size_t i) const;
-	inline const bool		getTexCoordIndex(const size_t i, uint32_t& index);
+	const uint32_t& 	getVertexIndex(const size_t i) const;
+	const bool		getVertexIndex(const size_t i, uint32_t& index);
+	const uint32_t& 	getNormalIndex(const size_t i) const;
+	const bool		getNormalIndex(const size_t i, uint32_t& index);
+	const uint32_t& 	getTexCoordIndex(const size_t i) const;
+	const bool		getTexCoordIndex(const size_t i, uint32_t& index);
 
-	inline bool		setVertexIndex(const size_t i, const uint32_t index);
-	inline bool		setNormalIndex(const size_t i, const uint32_t index);
-	inline bool		setTexCoordIndex(const size_t i, const uint32_t index);
+	bool		setVertexIndex(const size_t i, const uint32_t index);
+	bool		setNormalIndex(const size_t i, const uint32_t index);
+	bool		setTexCoordIndex(const size_t i, const uint32_t index);
 
-	inline vector3&	getVertex(const size_t i);
-	inline bool		getVertex(const size_t i, vector3& v);
-	inline vector3& getNormal(const size_t i);
-	inline bool		getNormal(const size_t i, vector3& v);
-	inline vector2& getTexCoord(const size_t i);
-	inline bool		getTexCoord(const size_t i, vector2& v);
+	vector3&	getVertex(const size_t i);
+	bool		getVertex(const size_t i, vector3& v);
+	vector3& getNormal(const size_t i);
+	bool		getNormal(const size_t i, vector3& v);
+	vector2& getTexCoord(const size_t i);
+	bool		getTexCoord(const size_t i, vector2& v);
 
-	inline bool		setVertex(const size_t i, const vector3& v);
-	inline bool		setNormal(const size_t i, const vector3& v);
-	inline bool		setTexCoord(const size_t i, const vector2& v);
+	bool		setVertex(const size_t i, const vector3& v);
+	bool		setNormal(const size_t i, const vector3& v);
+	bool		setTexCoord(const size_t i, const vector2& v);
 
-	inline uint32_t* getVertexIndices()
+	uint32_t* getVertexIndices()
 	{ return vertex; 		}
-	inline uint32_t* getNormalIndices()
+	uint32_t* getNormalIndices()
 	{ return normal;		}
-	inline uint32_t* getTexCoordIndices()
+	uint32_t* getTexCoordIndices()
 	{ return texcoord; 		}
 };
 
@@ -112,20 +112,20 @@ public:
 	bool 				setTexCoordCount(const size_t count);
 	bool 				setFaceCount(const size_t count);
 
-	inline vector3&		getVertex(const size_t i)	{ return vertices[i];		}
-	inline vector3&		getNormal(const size_t i)	{ return normals[i];		}
-	inline vector2& 	getTexCoord(const size_t i)	{ return texcoords[i];		}
-	inline TriangleFace& getFace(const size_t i)	{ return faces[i]; 			}
+	vector3&		getVertex(const size_t i)	{ return vertices[i];		}
+	vector3&		getNormal(const size_t i)	{ return normals[i];		}
+	vector2& 	getTexCoord(const size_t i)	{ return texcoords[i];		}
+	TriangleFace& getFace(const size_t i)	{ return faces[i]; 			}
 
-	inline bool	 		getVertex(const size_t i, vector3& v);
-	inline bool			setVertex(const size_t i, const vector3& v);
-	inline bool			getNormal(const size_t i, vector3& v);
-	inline bool			setNormal(const size_t i, const vector3& v);
-	inline bool			getTexCoord(const size_t i, vector2& v);
-	inline bool			setTexCoord(const size_t i, const vector2& v);
+	bool	 		getVertex(const size_t i, vector3& v);
+	bool			setVertex(const size_t i, const vector3& v);
+	bool			getNormal(const size_t i, vector3& v);
+	bool			setNormal(const size_t i, const vector3& v);
+	bool			getTexCoord(const size_t i, vector2& v);
+	bool			setTexCoord(const size_t i, const vector2& v);
 
-	inline bool			getFace(const size_t i, TriangleFace& face);
-	inline bool			setFace(const size_t i, const TriangleFace& face);
+	bool			getFace(const size_t i, TriangleFace& face);
+	bool			setFace(const size_t i, const TriangleFace& face);
 
 	const size_t		getRenderElementCount() const;
 
@@ -135,6 +135,173 @@ public:
 
 	friend class TriangleFace;
 };
+
+inline bool SubMesh::setFace(const size_t i, const TriangleFace& face)
+{
+	if(i >= faces.size())
+		return false;
+	faces[i] = face;
+	faces[i].setMesh(this);
+	return true;
+}
+
+inline const uint32_t& TriangleFace::getVertexIndex(const size_t i) const
+{ return vertex[i]; 	}
+
+inline const uint32_t& TriangleFace::getNormalIndex(const size_t i) const
+{ return normal[i]; 	}
+
+inline const uint32_t& TriangleFace::getTexCoordIndex(const size_t i) const
+{ return texcoord[i]; 	}
+
+inline const bool TriangleFace::getVertexIndex(const size_t i, uint32_t &index)
+{
+	if(i >= 3) return false;
+	index = vertex[i];
+	return true;
+}
+
+inline const bool TriangleFace::getNormalIndex(const size_t i, uint32_t &index)
+{
+	if(i >= 3) return false;
+	index = normal[i];
+	return true;
+}
+
+inline const bool TriangleFace::getTexCoordIndex(const size_t i, uint32_t &index)
+{
+	if(i >= 3) return false;
+	index = texcoord[i];
+	return true;
+}
+
+inline bool TriangleFace::setVertexIndex(const size_t i, const uint32_t index)
+{
+	if(i >= 3) return false;
+	vertex[i] = index;
+	return true;
+}
+
+inline bool TriangleFace::setNormalIndex(const size_t i, const uint32_t index)
+{
+	if(i >= 3) return false;
+	normal[i] = index;
+	return true;
+}
+
+inline bool TriangleFace::setTexCoordIndex(const size_t i, const uint32_t index)
+{
+	if(i >= 3) return false;
+	texcoord[i] = index;
+	return true;
+}
+
+inline vector3& TriangleFace::getVertex(const size_t i)
+{ return mesh->vertices[vertex[i]]; 		}
+
+inline vector3& TriangleFace::getNormal(const size_t i)
+{
+	return mesh->normals[normal[i]];
+}
+
+inline vector2& TriangleFace::getTexCoord(const size_t i)
+{ return mesh->texcoords[texcoord[i]];	}
+
+inline bool TriangleFace::getVertex(const size_t i, vector3& v)
+{
+	if(i >= 3) return false;
+	v = mesh->vertices[vertex[i]];
+	return true;
+}
+
+inline bool TriangleFace::getNormal(const size_t i, vector3& v)
+{
+	if(i >= 3) return false;
+	v = mesh->normals[normal[i]];
+	return true;
+}
+
+inline bool TriangleFace::getTexCoord(const size_t i, vector2& v)
+{
+	if(i >= 3) return false;
+	v = mesh->texcoords[texcoord[i]];
+	return true;
+}
+
+inline bool TriangleFace::setVertex(const size_t i, const vector3& v)
+{
+	if(i >= 3) return false;
+	mesh->vertices[vertex[i]] = v;
+	return true;
+}
+
+inline bool TriangleFace::setNormal(const size_t i, const vector3& v)
+{
+	if(i >= 3) return false;
+	mesh->normals[normal[i]] = v;
+	return true;
+}
+
+inline bool TriangleFace::setTexCoord(const size_t i, const vector2& v)
+{
+	if(i >= 3) return false;
+	mesh->texcoords[texcoord[i]] = v;
+	return true;
+}inline bool SubMesh::getVertex(const size_t i, vector3& v)
+{
+	if(i >= vertices.size())
+		return false;
+	v = vertices[i];
+	return true;
+}
+
+inline bool SubMesh::setVertex(const size_t i, const vector3& v)
+{
+	if(i >= vertices.size())
+		return false;
+	vertices[i] = v;
+	return true;
+}
+
+inline bool SubMesh::getNormal(const size_t i, vector3& v)
+{
+	if(i >= normals.size())
+		return false;
+	v = normals[i];
+	return true;
+}
+
+inline bool SubMesh::setNormal(const size_t i, const vector3& v)
+{
+	if(i >= normals.size())
+		return false;
+	normals[i] = v;
+	return true;
+}
+
+inline bool SubMesh::getTexCoord(const size_t i, vector2& v)
+{
+	if(i >= texcoords.size())
+		return false;
+	v = texcoords[i];
+	return true;
+}
+
+inline bool SubMesh::setTexCoord(const size_t i, const vector2& v)
+{
+	if(i >= texcoords.size())
+		return false;
+	texcoords[i] = v;
+	return true;
+}
+
+inline bool SubMesh::getFace(const size_t i, TriangleFace& face)
+{
+	if(i >= faces.size())
+		return false;
+	face = faces[i];
+	return true;
+}
 
 } // Vorticity
 

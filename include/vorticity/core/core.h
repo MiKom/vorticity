@@ -63,7 +63,10 @@ public:
 };
 
 VAPI Core* getCore();
-VAPI inline std::ostream& log();
+VAPI inline std::ostream& log()
+{
+	return getCore()->getLog();
+}
 
 } // Vorticity
 

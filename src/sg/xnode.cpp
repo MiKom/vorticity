@@ -161,13 +161,3 @@ Modifier* XNode::getModifier(const string &type) const
 	}
 	return NULL;
 }
-
-NodeConstIterator XNode::enumChildren(const size_t index) const
-{ return children.begin() + index; }
-
-Node* XNode::getChild(NodeConstIterator &it) const
-{
-	if(it == children.end())
-		return NULL;
-	return (*it++);
-}

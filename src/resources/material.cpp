@@ -35,7 +35,7 @@ Material::Material(const string& name) : Resource(), name(name)
 	this->glossiness = 10.0f;
 	this->specularLevel = 0.0f;
 
-	std::memset(textures, NULL, sizeof(textures));
+	std::memset(textures, 0, sizeof(textures));
 }
 
 Material::~Material()

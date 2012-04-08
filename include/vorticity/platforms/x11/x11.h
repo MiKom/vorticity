@@ -33,9 +33,14 @@ namespace Vorticity
 
 class VAPI X11_Application : public Application
 {
+protected:
+	Display	*mDisplay;
+	Window	mWindow;
+
+	bool initializeGraphics();
 public:
 	X11_Application();
-	virtual ~X11_Application();
+	virtual ~X11_Application();	
 
 	bool	initialize();
 	void	shutdown();

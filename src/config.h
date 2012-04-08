@@ -37,13 +37,18 @@
 #include <sstream>
 #include <algorithm>
 
+#include <GL/glew.h>
+
 #ifdef WIN32
-#define WIN32_LEAN_AND_MEAN
-#define NOMINMAX
-#include <windows.h>
+#	define WIN32_LEAN_AND_MEAN
+#	define NOMINMAX
+#	include <windows.h>
+#elif defined(__unix__) && !defined(__APPLE__) && !defined(MACOSX)
+#	include <X11/Xlib.h>
+#	include <GL/glx.h>
+#	include <GL/glxext.h>
 #endif
 
-#include <GL/glew.h>
 #include <IL/il.h>
 #include <Cg/cg.h>
 #include <Cg/cgGL.h>

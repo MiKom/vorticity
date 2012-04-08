@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright © 2009, 2010 Michał Siejak
  *
  * All rights reserved.

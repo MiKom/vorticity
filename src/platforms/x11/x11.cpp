@@ -1,6 +1,8 @@
 #include "config.cpp"
 #include <vorticity/platforms/x11/x11.h>
 
+#include <X11/Xlib.h>
+
 using namespace Vorticity;
 
 X11_Application::X11_Application() : Application()
@@ -23,7 +25,36 @@ void X11_Application::shutdown()
 	//TODO: implement
 }
 
+bool X11_Application::initializeGraphics()
+{
+	mDisplay = XOpenDisplay(NULL);
+	static int visual_attribs[] = {
+		GLX_X_RENDERABLE    , True,
+		GLX_DRAWABLE_TYPE   , GLX_WINDOW_BIT,
+		GLX_RENDER_TYPE     , GLX_RGBA_BIT,
+		GLX_X_VISUAL_TYPE   , GLX_TRUE_COLOR,
+		GLX_RED_SIZE        , 8,
+		GLX_GREEN_SIZE      , 8,
+		GLX_BLUE_SIZE       , 8,
+		GLX_ALPHA_SIZE      , 8,
+		GLX_DEPTH_SIZE      , 24,
+		GLX_STENCIL_SIZE    , 8,
+		GLX_DOUBLEBUFFER    , True,
+		//GLX_SAMPLE_BUFFERS  , 1,
+		//GLX_SAMPLES         , 4,
+		None
+	};
 
+	int glx_minor, glx_major;
+
+	if (!glXQueryVersion( mDisplay, &glx_major, &glx_minor ) ||
+	    ( ( glx_major == 1 ) && ( glx_minor < 3 ) ) || ( glx_major < 1 ) )
+	{
+		throw std::runtime_error( "Invalid GLX version" );
+	}
+
+
+}
 
 int X11_Application::main(int argc, char **argv, Application *theApp)
 {

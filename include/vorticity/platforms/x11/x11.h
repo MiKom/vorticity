@@ -22,6 +22,8 @@
 #ifndef __VORTICITY_X11_H
 #define __VORTICITY_X11_H
 
+#include <mutex>
+
 #define PlatformBase Vorticity::X11_Application
 
 #define VORTICITY_APPLICATION(app_class) \
@@ -33,11 +35,32 @@ namespace Vorticity
 
 class VAPI X11_Application : public Application
 {
+public:
+	static const int ThreadSleep = 50;
 protected:
-	Display	*mDisplay;
-	Window	mWindow;
+	Display		*mDisplay;
+	Window		mWindow;
+	GLXContext	mGLXCtx;
+	volatile bool 	mThreadTerminate;
+	std::mutex	mMutex;
 
-	bool initializeGraphics();
+protected:
+	bool initGraphics();
+	void destroyGraphics();
+
+	/**
+	  Looks through all the configs provided, and reurns index of the one
+	  with most samples and sample buffers.
+	  \param dpy X display to use
+	  \param fb array of frame buffer configs
+	  \param count number of items in fb array
+	  \return index to fb array pointing to best config
+	 */
+	static size_t findBestFBConfig(Display* display,
+				       GLXFBConfig *fbc,
+				       int fbcount);
+
+	void updateProc();
 public:
 	X11_Application();
 	virtual ~X11_Application();	

@@ -96,7 +96,7 @@ public:
 	{ }
 
 #ifndef _MSC_VER
-	~DeviceException() throw();
+	~DeviceException() throw() {}
 #endif
 
 	const std::string& object() const

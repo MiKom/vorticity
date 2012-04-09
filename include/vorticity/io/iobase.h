@@ -32,7 +32,7 @@ protected:
 public:
 	IOException(const std::string& msg, const std::string& path, const int err);
 #ifndef _MSC_VER
-	~IOException() throw();
+	~IOException() throw() {}
 #endif
 	
 	const int getStatus() const 		{ return error; }

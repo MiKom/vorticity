@@ -11,4 +11,10 @@ FIND_PATH(IL_INCLUDE_DIR il.h
 
 to:
 
-FIND_PATH(IL_INCLUDE_DIR IL/il.h 
+FIND_PATH(IL_INCLUDE_DIR IL/il.h
+
+1.2 Linux
+
+After building with CMake copy src/shaders directory to bin/ directory in build
+dir. I.e shaders/ folder must be in the same folder from which you run the
+rotating_boxes executable.

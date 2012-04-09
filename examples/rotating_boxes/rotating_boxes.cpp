@@ -47,7 +47,8 @@ bool Sandbox::onInitialize()
 	int frameBuffer = device->createFramebuffer(Vorticity::BufferFloat16, 4);
 	device->addBufferTarget(frameBuffer, Vorticity::ColorBuffer, NoFilter);
 
-	font = getFontManager()->createFont("Tahoma");
+//XXX: this is commented out for compatibility with X11 port
+//	font = getFontManager()->createFont("Tahoma");
 
 	// Scene graph
 	root = new Group("root");
@@ -108,7 +109,7 @@ bool Sandbox::onInitialize()
 void Sandbox::onShutdown()
 {
 	delete root;
-	getFontManager()->destroyFont(font);
+//	getFontManager()->destroyFont(font);
 	getConsole()->close();
 }
 
@@ -130,8 +131,11 @@ void Sandbox::onDraw()
 	int frame = ppfx->render();
 	device->drawFeedbackBuffer(frame);
 
+//XXX: this is commented out for compatibility with X11 port
+/*
 	Overlay* overlay = device->getOverlay();
 	overlay->begin(8.0f, 6.0f);
 	overlay->bg(0.2f, 0.2f, 0.2f).usebg(true).margins(0.2f, 0.2f).bgalpha(0.5f).text(font, 0.1f, 0.2f, 0.2f, "Vorticity");
 	overlay->end();
+*/
 }

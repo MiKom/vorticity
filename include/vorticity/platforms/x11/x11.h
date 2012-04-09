@@ -23,6 +23,7 @@
 #define __VORTICITY_X11_H
 
 #include <mutex>
+#include <chrono>
 
 #define PlatformBase Vorticity::X11_Application
 
@@ -44,6 +45,11 @@ protected:
 	volatile bool 	mThreadTerminate;
 	std::mutex	mMutex;
 
+	/**
+	  This variable keeps moment in which program started. It's set in
+	  initialize()
+	 */
+	std::chrono::monotonic_clock::time_point mProgramStart;
 protected:
 	bool initGraphics();
 	void destroyGraphics();
@@ -59,7 +65,7 @@ protected:
 	static size_t findBestFBConfig(Display* display,
 				       GLXFBConfig *fbc,
 				       int fbcount);
-
+	static void initializeGLX();
 	void updateProc();
 public:
 	X11_Application();

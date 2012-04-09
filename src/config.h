@@ -46,7 +46,6 @@
 #elif defined(__unix__) && !defined(__APPLE__) && !defined(MACOSX)
 #	include <X11/Xlib.h>
 #	include <GL/glxew.h>
-#	include <GL/glx.h>
 #	include <GL/glxext.h>
 #endif
 

@@ -2,8 +2,8 @@
 #include "vorticity/platforms/x11/x11.h"
 #include "vorticity/render/opengl.h"
 
-#include <mutex>
 #include <thread>
+#include <iostream>
 
 using namespace Vorticity;
 
@@ -21,6 +21,7 @@ bool X11_Application::initialize()
 	if(!initGraphics()) {
 		throw std::runtime_error("Failed to create GLX window");
 	}
+	mProgramStart = std::chrono::monotonic_clock::now();
 	return true;
 }
 
@@ -28,6 +29,14 @@ void X11_Application::shutdown()
 {
 	onShutdown();
 	destroyGraphics();
+}
+
+void X11_Application::initializeGLX()
+{
+	glXCreateContextAttribsARB = (GLXContext(*)(Display* dpy, GLXFBConfig config, GLXContext share_context, Bool direct, const int *attrib_list))glXGetProcAddressARB((GLubyte*)"glXCreateContextAttribsARB");
+	glXChooseFBConfig = (GLXFBConfig*(*)(Display *dpy, int screen, const int *attrib_list, int *nelements))glXGetProcAddressARB((GLubyte*)"glXChooseFBConfig");
+	glXGetVisualFromFBConfig = (XVisualInfo*(*)(Display *dpy, GLXFBConfig config))glXGetProcAddressARB((GLubyte*)"glXGetVisualFromFBConfig");
+	glXGetFBConfigAttrib = (int(*)(Display* dpy, GLXFBConfig config, int attribute, int* value))glXGetProcAddressARB((GLubyte*)"glXGetFBConfigAttrib");
 }
 
 bool X11_Application::initGraphics()
@@ -45,8 +54,8 @@ bool X11_Application::initGraphics()
 		GLX_DEPTH_SIZE      , 24,
 		GLX_STENCIL_SIZE    , 8,
 		GLX_DOUBLEBUFFER    , True,
-		//GLX_SAMPLE_BUFFERS  , 1,
-		//GLX_SAMPLES         , 4,
+		GLX_SAMPLE_BUFFERS  , 1,
+		GLX_SAMPLES         , 4,
 		None
 	};
 
@@ -57,7 +66,7 @@ bool X11_Application::initGraphics()
 	{
 		throw std::runtime_error( "Invalid GLX version" );
 	}
-
+	initializeGLX();
 	int fbcount;
 	GLXFBConfig *fbc = glXChooseFBConfig(mDisplay, DefaultScreen(mDisplay),
 					     visual_attribs, &fbcount);
@@ -93,25 +102,32 @@ bool X11_Application::initGraphics()
 		GLX_CONTEXT_MAJOR_VERSION_ARB, 3,
 		GLX_CONTEXT_MINOR_VERSION_ARB, 0,
 #ifdef OPENGL_COMPATIBILITY_RENDERER
-		GLX_CONTEXT_FLAGS_ARB, GLX_CONTEXT_COMPATIBILITY_PROFILE_BIT_ARB
+		GLX_CONTEXT_PROFILE_MASK_ARB, GLX_CONTEXT_COMPATIBILITY_PROFILE_BIT_ARB,
 #else
-		GLX_CONTEXT_FLAGS_ARB, GLX_CONTEXT_CORE_PROFILE_BIT_ARB
+		GLX_CONTEXT_PROFILE_MASK_ARB, GLX_CONTEXT_CORE_PROFILE_BIT_ARB,
 #endif
+		None
 	};
+
 	mGLXCtx = glXCreateContextAttribsARB(mDisplay, bestFbc, 0, True,
 					     contextAttribs);
 	if(!mGLXCtx) {
 		return false;
 	}
-
+	XMapWindow(mDisplay, mWindow);
+	glXMakeCurrent(mDisplay, mWindow, mGLXCtx);
 	setDevice(new OpenGL());
 
 	//TODO: uncomment after implementing respective classes
-	//setFintManager(new X11_FontManager());
-	//device->setScreenWidth();
-	//device->setScreenHeight();
+	//setFontManager(new X11_FontManager());
+
+	//TODO: why in Win32 it's some clienWidth and clientHeight?
+	device->setScreenWidth(width);
+	device->setScreenHeight(height);
 	//device->setOverlay(new OverlayOpenGL(fontManager));
 
+	//TODO: see why it's crashing when this is set to true
+	threaded = false;
 	return true;
 }
 
@@ -154,14 +170,6 @@ X11_Application::findBestFBConfig(
 	return bestFbc;
 }
 
-int X11_Application::main(int argc, char **argv, Application *theApp)
-{
-	int retcode = 0;
-	//TODO: implement
-	return retcode;
-}
-
-
 //TODO: Don't know if it should work that way
 void X11_Application::showWindow(bool s)
 {
@@ -176,11 +184,29 @@ void X11_Application::showWindow(bool s)
 
 void X11_Application::updateProc()
 {
-	//TODO: implement
+	time_t timerSleep = 1000/ this->updateFrequency;
+
+	bool updateStatus = true;
+	time_t dwTimeBegin, dwTimeElapsed;
+	do {
+		dwTimeBegin = getTime();
+		mMutex.lock();
+		updateStatus = this->onUpdate();
+		mMutex.unlock();
+		dwTimeElapsed = getTime() - dwTimeBegin;
+
+		if(timerSleep > dwTimeElapsed) {
+			std::chrono::milliseconds duration(timerSleep - dwTimeElapsed);
+			std::this_thread::sleep_for(duration);
+		}
+
+	} while( this->threaded && (!mThreadTerminate && updateStatus));
+	//TODO: should something be here? Look in Win32 implementation
 	return;
 }
 int X11_Application::run()
 {
+	//TODO: implement WM interaction
 	std::thread updateThread;
 	if(threaded) {
 		updateThread = std::thread(&X11_Application::updateProc, this);
@@ -205,20 +231,46 @@ int X11_Application::run()
 	return 0;
 }
 
+int X11_Application::main(int argc, char **argv, Application *theApp)
+{
+	try {
+		if(!theApp->onStartup(argc, argv)) {
+			throw std::exception();
+		}
+		theApp->initialize();
+		if(!theApp->onInitialize()) {
+			throw std::exception();
+		}
+	} catch (const std::exception& e) {
+		theApp->showMessage(e.what());
+		delete theApp;
+		return 1;
+	}
+
+	int retcode = theApp->run();
+	theApp->shutdown();
+	delete theApp;
+	return retcode;
+}
+
 time_t X11_Application::getTime() const
 {
-	//TODO: implement
-	return 0;
+	using namespace std::chrono;
+	monotonic_clock::time_point now(monotonic_clock::now());
+	milliseconds elapsed = duration_cast<milliseconds>(now - mProgramStart);
+	return static_cast<time_t>(elapsed.count());
 }
 
 void X11_Application::showMessage(const std::string &msg)
 {
-	//TODO: implement
+	//TODO: implement properly
+	std::cout << "Vorticity: " << msg << std::endl;
 }
 
 void X11_Application::showMessage(const std::string& title, const std::string& msg)
 {
-	//TODO: implement
+	//TODO: implement properly
+	std::cout << title << ": " << msg << std::endl;
 }
 
 void X11_Application::die(const std::string &msg, int retcode)

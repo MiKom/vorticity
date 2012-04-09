@@ -36,6 +36,7 @@ OpenGL::OpenGL() : Renderer()
 	getCore()->setDevice(this);
 	glEnable(GL_TEXTURE_2D);
 
+	glewExperimental = GL_TRUE;
 	glewInit();
 	cgContext = cgCreateContext();
 	cgGLRegisterStates(cgContext);

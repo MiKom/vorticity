@@ -1,0 +1,57 @@
+This file contains specification of data format for AVR models that Vorticity
+can load with StdMeshLoader class.
+
+types:
+int - four-byte unsinged integer value, little endian
+short - two-byte unsigned integer value, little endian
+float - IEEE 754 floating point number, little endian
+T[n] - n consecutive entries of type T
+
+MeshChunkMain   char[4] - VMSH
+size            int
++
+|version                short
+|MeshChunkGeometry      char[4] - GEOM
+|size                   int
+|+
+||meshesCount           int
+||MeshChunkMesh         char - MESH     ------------------------+
+||size                  int                                     |
+||+                                                             |
+|||name                 char[n] (null-terminated string)        |
+|||facesCount           int                                     |
+|||vertexCount          int                                     |
+|||normalsCount         int                                     |
+|||textCoordsCount      int                                     | - meshesCount times
+|||materialId           int                                     |
+|||vertexIndex          int[3]----+                             |
+|||normalIndex          int[3]    | - facesCount times          |
+|||textCoordIndex       int[3]----+                             |
+|||vertex               float[3] - vertexCount times            |
+|||normal               float[3] - normalsCount times           |
+|||textCoords           float[2] - textCoordsCount times -------+
+|MeshChunkMaterials     char[4]  - MATS
+|size                   int
+|+
+||materialsCount        int
+||MeshChunkMaterial     char[4] - MATR    ----------------------+
+||size                  int                                     |
+||+                                                             |
+||name                  char[n] (null-terminated string)        |
+||diffuse               float[3]                                |
+||specular              float[3]                                |
+||ambient               float[3]                                | - materialsCount times
+||emissive              float[3]                                |
+||opacity               float                                   |
+||specularLevel         float                                   |
+||glossiness            float                                   |
+||textureCount          int                                     |
+||textureIndex          int  - textureCount times --------------+
+|MeshChunkTextures      char[4] - TEXS
+|size                   int
+|+
+||textureCount          int
+||MeshChunkTexture      int - TEXT -----------------------------+
+||size                  int                                     | - textureCount times
+||+                                                             |
+|||path                 char[n] (null-terminated string) -------+

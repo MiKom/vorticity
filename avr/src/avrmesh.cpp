@@ -32,7 +32,7 @@ void AVRMesh::addVertex(const vec3& vertex)
 }
 void AVRMesh::addVertices(const std::vector<vec3>& vertices)
 {
-	mVertices.insert(end(mVertices), begin(vertices), end(vertices));
+	mVertices.insert(mVertices.end(), vertices.begin(), vertices.end());
 }
 void AVRMesh::clearVertices()
 {
@@ -45,7 +45,7 @@ void AVRMesh::addNormal(const vec3& normal)
 }
 void AVRMesh::addNormals(const std::vector<vec3>& normals)
 {
-	mNormals.insert(end(mNormals), begin(normals), end(normals));
+	mNormals.insert(mNormals.end(), normals.begin(), normals.end());
 }
 void AVRMesh::clearNormals()
 {
@@ -58,7 +58,8 @@ void AVRMesh::addTextCoord(const vec2& textCoord)
 }
 void AVRMesh::addTextCoords(const std::vector<vec2>& textCoords)
 {
-	mTextCoords.insert(end(mTextCoords), begin(textCoords), end(textCoords));
+	mTextCoords.insert(mTextCoords.end(),
+	                   textCoords.begin(), textCoords.end());
 }
 void AVRMesh::clearTextCoords()
 {
@@ -71,7 +72,7 @@ void AVRMesh::addFace(const AVRFace& face)
 }
 void AVRMesh::addFaces(const std::vector<AVRFace>& faces)
 {
-	mFaces.insert(end(mFaces), begin(faces), end(faces));
+	mFaces.insert(mFaces.end(), faces.begin(), faces.end());
 }
 void AVRMesh::clearFaces()
 {

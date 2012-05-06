@@ -102,9 +102,9 @@ void AVRMaterial::addTextureId(const int id)
 }
 void AVRMaterial::removeTextureId(const int id)
 {
-	mTextureIds.erase(std::remove_if(std::begin(mTextureIds), std::end(mTextureIds), [&](int _id) {
+	mTextureIds.erase(std::remove_if(mTextureIds.begin(), mTextureIds.end(), [&](int _id) {
 		return _id == id;
-	}), std::end(mTextureIds));
+	}), mTextureIds.end());
 }
 
 void AVR::write(std::ostream& os, const AVRMaterial& mat)

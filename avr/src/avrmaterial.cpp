@@ -1,3 +1,24 @@
+/* 
+ * Copyright © 2012 Miłosz Kosobucki
+ *
+ * All rights reserved.
+ * 
+ * This file is part of Vorticity.
+ *
+ * Vorticity is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Vorticity is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Vorticity.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 #include <vector>
 #include <ostream>
 #include <string>
@@ -123,15 +144,15 @@ void AVR::write(std::ostream& os, const AVRMaterial& mat)
 	os.write((char*) &mat.mSpecularLevel, 4);
 	os.write((char*) &mat.mGlossiness, 4);
 
-	int32_t textCount = static_cast<int32_t>(mat.mTextureIds.size());
+	uint32_t textCount = static_cast<uint32_t>(mat.mTextureIds.size());
 	os.write((char*) &textCount, 4);
 	for(int i=0; i<mat.mTextureIds.size(); i++) {
-		int32_t textId = static_cast<int32_t>(mat.mTextureIds[i]);
+		uint32_t textId = static_cast<uint32_t>(mat.mTextureIds[i]);
 		os.write((char*) &textId, 4);
 	}
 
 	auto endPos = os.tellp();
-	int32_t size = endPos - startPos;
+	uint32_t size = endPos - startPos;
 	os.seekp(sizePos);
 	os.write((char*) &size, 4);
 	os.seekp(endPos);

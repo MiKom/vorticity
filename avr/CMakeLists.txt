@@ -32,10 +32,13 @@ set( libavr_PUBLIC_HEADERS
 	include/avr/avrmesh.h
 	include/avr/avrtexture.h
 	include/avr/avrmath.h
+	include/avr/avr++.h
 )
 
 set( libavr_PRIVATE_HEADERS
 )
+
+add_definitions( -DAVR_COMPILATION )
 
 include_directories( include/avr src )
 

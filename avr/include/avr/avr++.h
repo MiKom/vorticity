@@ -20,23 +20,12 @@
  */
 
 #pragma once
+#define __AVRXX_H_INSIDE__
 
-#if !defined (__AVRXX_H_INSIDE__) && !defined (AVR_COMPILATION)
-#error "Only <avr/avr++.h> can be included directly."
-#endif
+#include<avr/avrmath.h>
+#include<avr/avrtexture.h>
+#include<avr/avrmaterial.h>
+#include<avr/avrmesh.h>
+#include<avr/avrfile.h>
 
-namespace AVR
-{
-
-class AVRTexture
-{
-protected:
-	std::string mPath;
-public:
-	std::string getPath() const { return mPath;}
-	void setPath(const std::string& path) { mPath = path; }
-	friend void write(std::ostream& os, const AVRTexture& texture);
-};
-
-void write(std::ostream& os, const AVRTexture& texture);
-} //AVR
+#undef __AVRXX_H_INSIDE__

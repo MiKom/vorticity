@@ -75,6 +75,13 @@ bool Sandbox::onInitialize()
 	dum2["position"] = vec3(5.0f, 0.0f, 0.0f);
 	dum2["scale"] = vec3(0.5f, 0.5f, 0.5f);
 	dum2.updateTransformation();
+	
+	StdMeshLoader meshLoader("models/wmi.avr");
+	Mesh* mesh = new Mesh(meshLoader);
+	NodeMesh &logo = gnew <NodeMesh>("logo", dum1);
+	logo["position"] = vec3(-5.0f, 0.0f, 0.0f);
+	logo.bind(mesh);
+	
 
 	// Default light
 	NodeLight &light1 = gnew <NodeLight>("light1", root);

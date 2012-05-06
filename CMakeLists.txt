@@ -1,4 +1,4 @@
-# 
+#
 # Copyright © 2011 Miłosz Kosobucki
 # 
 # All rights reserved.
@@ -390,5 +390,7 @@ target_link_libraries(vorticity ${vorticity_ADDITIONAL_LIBRARIES})
 #Adding examples subdirectory
 option(BUILD_VORTICITY_EXAMPLES "Build example programs that use vorticity" ON)
 if(BUILD_VORTICITY_EXAMPLES)
-	add_subdirectory("examples/")
+	add_subdirectory(examples)
 ENDIF(BUILD_VORTICITY_EXAMPLES)
+
+add_subdirectory(avr)

@@ -18,3 +18,34 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Vorticity.  If not, see <http://www.gnu.org/licenses/>.
  */
+
+#include<vector>
+#include<ostream>
+#include"avrmath.h"
+#include"avrtexture.h"
+#include"avrmaterial.h"
+#include"avrmesh.h"
+#include"avrfile.h"
+
+using namespace AVR;
+
+void AVRFile::addMaterial(const AVRMaterial& material)
+{
+	mMaterials.push_back(material);
+}
+
+void AVRFile::addMesh(AVRMesh* mesh)
+{
+	mMeshes.push_back(mesh);
+}
+
+void AVRFile::addTexture(const AVRTexture& texture)
+{
+	mTextures.push_back(texture);
+}
+
+AVRFile::AVRResult AVRFile::save(const std::string& path)
+{
+	//TODO: implement
+	return AVR_OK;
+}

@@ -41,12 +41,14 @@ class AVRMesh
 {
 protected:
 	std::string mName;
-	std::vector<AVRFace> mFaces;
-	std::vector<vec3> mVertices;
-	std::vector<vec3> mNormals;
-	std::vector<vec2> mTextCoords;
+	std::vector<AVRFace>* mFaces;
+	std::vector<vec3>* mVertices;
+	std::vector<vec3>* mNormals;
+	std::vector<vec2>* mTextCoords;
 	int mMaterialId;
 public:
+	AVRMesh();
+	virtual ~AVRMesh();
 	std::string getName() const { return mName; }
 	void setName(const std::string& name) { mName = name; }
 

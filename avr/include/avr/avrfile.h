@@ -30,7 +30,29 @@ namespace AVR
 
 class AVRFile
 {
+	enum AVRResult {
+		AVR_OK,
+		AVR_EPERM,
+		AVR_EFULL,
+		AVR_ERROR
+	};
 	
+protected:
+	std::vector<AVRMaterial> mMaterials;
+	std::vector<AVRMesh*> mMeshes;
+	std::vector<AVRTexture> mTextures;
+	
+public:
+	std::vector<AVRMaterial> getMaterials() const { return mMaterials; }
+	void addMaterial(const AVRMaterial& material);
+	
+	std::vector<AVRMesh*> getMeshes() const { return mMeshes; }
+	void addMesh(AVRMesh* mesh);
+	
+	std::vector<AVRTexture> getTextures() const { return mTextures; }
+	void addTexture(const AVRTexture& texture);
+	
+	AVRResult save(const std::string& path);
 };
 
 } //AVR

@@ -47,57 +47,74 @@ void write(ostream& os, const AVRFace& face)
 	}
 }
 
+
+AVRMesh::AVRMesh()
+{
+	mFaces = new vector<AVRFace>();
+	mVertices = new vector<vec3>();
+	mNormals = new vector<vec3>();
+	mTextCoords = new vector<vec2>();
+}
+
+AVRMesh::~AVRMesh()
+{
+	delete mFaces;
+	delete mVertices;
+	delete mNormals;
+	delete mTextCoords;
+}
+
 void AVRMesh::addVertex(const vec3& vertex)
 {
-	mVertices.push_back(vertex);
+	mVertices->push_back(vertex);
 }
 void AVRMesh::addVertices(const std::vector<vec3>& vertices)
 {
-	mVertices.insert(mVertices.end(), vertices.begin(), vertices.end());
+	mVertices->insert(mVertices->end(), vertices.begin(), vertices.end());
 }
 void AVRMesh::clearVertices()
 {
-	mVertices.clear();
+	mVertices->clear();
 }
 
 void AVRMesh::addNormal(const vec3& normal)
 {
-	mNormals.push_back(normal);
+	mNormals->push_back(normal);
 }
 void AVRMesh::addNormals(const std::vector<vec3>& normals)
 {
-	mNormals.insert(mNormals.end(), normals.begin(), normals.end());
+	mNormals->insert(mNormals->end(), normals.begin(), normals.end());
 }
 void AVRMesh::clearNormals()
 {
-	mNormals.clear();
+	mNormals->clear();
 }
 
 void AVRMesh::addTextCoord(const vec2& textCoord)
 {
-	mTextCoords.push_back(textCoord);
+	mTextCoords->push_back(textCoord);
 }
 void AVRMesh::addTextCoords(const std::vector<vec2>& textCoords)
 {
-	mTextCoords.insert(mTextCoords.end(),
-	                   textCoords.begin(), textCoords.end());
+	mTextCoords->insert(mTextCoords->end(),
+	                    textCoords.begin(), textCoords.end());
 }
 void AVRMesh::clearTextCoords()
 {
-	mTextCoords.clear();
+	mTextCoords->clear();
 }
 
 void AVRMesh::addFace(const AVRFace& face)
 {
-	mFaces.push_back(face);
+	mFaces->push_back(face);
 }
 void AVRMesh::addFaces(const std::vector<AVRFace>& faces)
 {
-	mFaces.insert(mFaces.end(), faces.begin(), faces.end());
+	mFaces->insert(mFaces->end(), faces.begin(), faces.end());
 }
 void AVRMesh::clearFaces()
 {
-	mFaces.clear();
+	mFaces->clear();
 }
 
 void AVR::write(std::ostream& os, const AVRMesh& mesh)
@@ -109,34 +126,32 @@ void AVR::write(std::ostream& os, const AVRMesh& mesh)
 	
 	os.write(mesh.mName.c_str(), mesh.mName.length());
 	
-	uint32_t nFaces = mesh.mFaces.size();
+	uint32_t nFaces = mesh.mFaces->size();
 	os.write((char*) &nFaces, 4);
 	
-	uint32_t nVertices = mesh.mVertices.size();
+	uint32_t nVertices = mesh.mVertices->size();
 	os.write((char*) &nVertices, 4);
 	
-	uint32_t nNormals = mesh.mNormals.size();
+	uint32_t nNormals = mesh.mNormals->size();
 	os.write((char*) &nNormals, 4);
 	
-	uint32_t nTextCoords = mesh.mTextCoords.size();
+	uint32_t nTextCoords = mesh.mTextCoords->size();
 	os.write((char*) &nTextCoords, 4);
 	
 	uint32_t materialId = static_cast<uint32_t>(mesh.mMaterialId);
 	os.write((char*) &materialId, 4);
 	
-	for(int i=0; i<mesh.mFaces.size(); i++) {
-		write(os, mesh.mFaces[i]);
+	for(int i=0; i<mesh.mFaces->size(); i++) {
+		write(os, mesh.mFaces->at(i));
 	}
-	
-	for(int i=0; i<mesh.mVertices.size(); i++) {
-		os.write((char*) mesh.mVertices[i].cell, 4 * 3);
+	for(int i=0; i<mesh.mVertices->size(); i++) {
+		os.write((char*) mesh.mVertices->at(i).cell, 4 * 3);
 	}
-	
-	for(int i=0; i<mesh.mNormals.size(); i++) {
-		os.write((char*) mesh.mNormals[i].cell, 4 * 3);
+	for(int i=0; i<mesh.mNormals->size(); i++) {
+		os.write((char*) mesh.mNormals->at(i).cell, 4 * 3);
 	}
-	for(int i=0; i<mesh.mTextCoords.size(); i++) {
-		os.write((char*) mesh.mTextCoords[i].cell, 4 * 2);
+	for(int i=0; i<mesh.mTextCoords->size(); i++) {
+		os.write((char*) mesh.mTextCoords->at(i).cell, 4 * 2);
 	}
 	
 	auto endPos = os.tellp();

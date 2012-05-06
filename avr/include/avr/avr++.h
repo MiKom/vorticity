@@ -22,6 +22,10 @@
 #pragma once
 #define __AVRXX_H_INSIDE__
 
+#include<string>
+#include<fstream>
+#include<vector>
+
 #include<avr/avrmath.h>
 #include<avr/avrtexture.h>
 #include<avr/avrmaterial.h>

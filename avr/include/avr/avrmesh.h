@@ -29,9 +29,9 @@ namespace AVR
 
 struct _AVRFace
 {
-	int32_t vertIdx[3];
-	int32_t normalIdx[3];
-	int32_t textCoordIdx[3];
+	uint32_t vertIdx[3];
+	uint32_t normalIdx[3];
+	uint32_t textCoordIdx[3];
 };
 typedef struct _AVRFace AVRFace;
 

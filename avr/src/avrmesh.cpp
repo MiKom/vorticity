@@ -31,7 +31,7 @@
 using namespace AVR;
 using namespace std;
 
-void write(ostream& os, const AVRFace& face)
+void AVR::write(ostream& os, const AVRFace& face)
 {
 	for(int i=0; i<3; i++) {
 		uint32_t idx = face.vertIdx[i];

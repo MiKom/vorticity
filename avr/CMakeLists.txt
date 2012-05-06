@@ -38,10 +38,12 @@ set( libavr_PUBLIC_HEADERS
 set( libavr_PRIVATE_HEADERS
 )
 
+
+include_directories( include/avr include src )
+
+add_subdirectory(examples)
+
 add_definitions( -DAVR_COMPILATION )
-
-include_directories( include/avr src )
-
 add_library( avr SHARED
 	${libavr_SRCS}
 	${libavr_PUBLIC_HEADERS}

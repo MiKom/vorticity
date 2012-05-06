@@ -21,6 +21,7 @@
 
 #include<vector>
 #include<ostream>
+#include<fstream>
 #include"avrmath.h"
 #include"avrtexture.h"
 #include"avrmaterial.h"
@@ -44,8 +45,30 @@ void AVRFile::addTexture(const AVRTexture& texture)
 	mTextures.push_back(texture);
 }
 
-AVRFile::AVRResult AVRFile::save(const std::string& path)
+AVRFile::AVRError AVRFile::writeGeometry(std::ostream& os)
 {
 	//TODO: implement
-	return AVR_OK;
+	return AVRError::None;
+}
+AVRFile::AVRError AVRFile::writeMaterials(std::ostream& os)
+{
+	//TODO: implement
+	return AVRError::None;
+}
+AVRFile::AVRError AVRFile::writeTextures(std::ostream& os)
+{
+	//TODO: implement
+	return AVRError::None;
+}
+
+AVRFile::AVRError AVRFile::save(const std::string& path)
+{
+	//TODO: add error handling
+	std::ofstream file(path, std::ios::binary);
+	file.write("VMSH", 4);
+	
+	
+	
+	file.close();
+	return AVRError::None;
 }

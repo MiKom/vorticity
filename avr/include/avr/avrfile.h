@@ -30,17 +30,22 @@ namespace AVR
 
 class AVRFile
 {
-	enum AVRResult {
-		AVR_OK,
-		AVR_EPERM,
-		AVR_EFULL,
-		AVR_ERROR
+	enum AVRError {
+		None,
+		Permission,
+		Full,
+		WriteError,
+		Unknown
 	};
 	
 protected:
 	std::vector<AVRMaterial> mMaterials;
 	std::vector<AVRMesh*> mMeshes;
 	std::vector<AVRTexture> mTextures;
+	
+	AVRError writeGeometry(std::ostream& os);
+	AVRError writeMaterials(std::ostream& os);
+	AVRError writeTextures(std::ostream& os);
 	
 public:
 	std::vector<AVRMaterial> getMaterials() const { return mMaterials; }
@@ -52,7 +57,7 @@ public:
 	std::vector<AVRTexture> getTextures() const { return mTextures; }
 	void addTexture(const AVRTexture& texture);
 	
-	AVRResult save(const std::string& path);
+	AVRError save(const std::string& path);
 };
 
 } //AVR

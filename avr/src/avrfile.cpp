@@ -26,6 +26,7 @@
 #include"avrtexture.h"
 #include"avrmaterial.h"
 #include"avrmesh.h"
+#include"avrutil.h"
 #include"avrfile.h"
 
 using namespace AVR;
@@ -47,17 +48,50 @@ void AVRFile::addTexture(const AVRTexture& texture)
 
 AVRFile::AVRError AVRFile::writeGeometry(std::ostream& os)
 {
-	//TODO: implement
+	os.write("GEOM", 4);
+	auto sizePos = os.tellp();
+	os.seekp(4, std::ios::cur);
+	auto startPos = os.tellp();
+	
+	uint32_t nMeshes = mMeshes.size();
+	os.write((char*) &nMeshes, 4);
+	
+	for(int i=0; i<mMeshes.size(); i++) {
+		write(os, *mMeshes[i]);
+	}
+	
+	auto endPos = os.tellp();
+	uint32_t size = endPos - startPos;
+	os.seekp(sizePos);
+	os.write((char*) &size, 4);
+	os.seekp(endPos);
 	return AVRError::None;
 }
 AVRFile::AVRError AVRFile::writeMaterials(std::ostream& os)
 {
-	//TODO: implement
+	auto startPos = startChunk(os, "MATS");
+	
+	uint32_t nMaterials = mMaterials.size();
+	os.write((char*) &nMaterials, 4);
+	
+	for(int i=0; i<mMaterials.size(); i++) {
+		write(os, mMaterials[i]);
+	}
+	
+	endChunk(os, "MATS", startPos);
 	return AVRError::None;
 }
 AVRFile::AVRError AVRFile::writeTextures(std::ostream& os)
 {
-	//TODO: implement
+	auto startPos = startChunk(os, "TEXS");
+	
+	uint32_t nTextures = mTextures.size();
+	os.write((char*) &nTextures, 4);
+	
+	for(int i=0; i<mTextures.size(); i++) {
+		write(os, mTextures[i]);
+	}
+	endChunk(os, "TEXS", startPos);
 	return AVRError::None;
 }
 
@@ -66,8 +100,12 @@ AVRFile::AVRError AVRFile::save(const std::string& path)
 	//TODO: add error handling
 	std::ofstream file(path, std::ios::binary);
 	file.write("VMSH", 4);
+	uint16_t version = 1;
+	file.write((char*) &version, 2);
 	
-	
+	writeGeometry(file);
+	writeMaterials(file);
+	writeTextures(file);
 	
 	file.close();
 	return AVRError::None;

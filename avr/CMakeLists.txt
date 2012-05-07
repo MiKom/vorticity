@@ -24,6 +24,7 @@ set( libavr_SRCS
 	src/avrmaterial.cpp
 	src/avrmesh.cpp
 	src/avrtexture.cpp
+	src/avrutil.cpp
 )
 
 set( libavr_PUBLIC_HEADERS
@@ -36,6 +37,7 @@ set( libavr_PUBLIC_HEADERS
 )
 
 set( libavr_PRIVATE_HEADERS
+	include/avr/avrutil.h
 )
 
 

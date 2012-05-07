@@ -99,14 +99,15 @@ AVRFile::AVRError AVRFile::save(const std::string& path)
 {
 	//TODO: add error handling
 	std::ofstream file(path, std::ios::binary);
-	file.write("VMSH", 4);
+	auto startPos = startChunk(file, "VMSH");
 	uint16_t version = 1;
 	file.write((char*) &version, 2);
 	
 	writeGeometry(file);
 	writeMaterials(file);
 	writeTextures(file);
-	
+
+	endChunk(file, "VMSH", startPos);
 	file.close();
 	return AVRError::None;
 }

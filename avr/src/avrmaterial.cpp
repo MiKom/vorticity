@@ -104,6 +104,14 @@ void AVRMaterial::setOpacity(const float opacity)
 	mOpacity = opacity;
 }
 
+float AVRMaterial::getSpecularLevel() const
+{
+	return mSpecularLevel;
+}
+float AVRMaterial::setSpecularLevel(const float specularLevel)
+{
+	mSpecularLevel = specularLevel;
+}
 float AVRMaterial::getGlossiness() const
 {
 	return mGlossiness;

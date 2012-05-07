@@ -59,6 +59,9 @@ public:
 	vec3 getEmissive() const;
 	void setEmissive(const float r, const float g, const float b);
 	void setEmissive(const vec3& color);
+	
+	float getSpecularLevel() const;
+	float setSpecularLevel(const float specularLevel);
 
 	float getOpacity() const;
 	void setOpacity(const float opacity);

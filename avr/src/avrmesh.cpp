@@ -48,12 +48,11 @@ void AVR::write(ostream& os, const AVRFace& face)
 }
 
 
-AVRMesh::AVRMesh()
+AVRMesh::AVRMesh() : 
+	mMaterialId(0), mFaces(new vector<AVRFace>()),
+	mVertices(new vector<vec3>()), mNormals(new vector<vec3>()),
+	mTextCoords(new vector<vec2>())
 {
-	mFaces = new vector<AVRFace>();
-	mVertices = new vector<vec3>();
-	mNormals = new vector<vec3>();
-	mTextCoords = new vector<vec2>();
 }
 
 AVRMesh::~AVRMesh()
@@ -124,7 +123,7 @@ void AVR::write(std::ostream& os, const AVRMesh& mesh)
 	os.seekp(4, ios::cur);
 	auto startPos = os.tellp();
 	
-	os.write(mesh.mName.c_str(), mesh.mName.length());
+	os.write(mesh.mName.c_str(), mesh.mName.length() + 1);
 	
 	uint32_t nFaces = mesh.mFaces->size();
 	os.write((char*) &nFaces, 4);

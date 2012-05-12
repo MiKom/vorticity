@@ -1,1 +1,2 @@
-add_subdirectory("rotating_boxes")
+add_subdirectory(rotating_boxes)
+add_subdirectory(model_viewer)

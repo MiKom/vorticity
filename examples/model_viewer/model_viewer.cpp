@@ -1,29 +1,41 @@
 #include "config.h"
-#include "vorticity/vorticity.h"
-#include "rotating_boxes.h"
+#include <vorticity/vorticity.h>
+#include "model_viewer.h"
 
+#include <sstream>
+#include <string>
 using namespace Vorticity;
 
-VORTICITY_APPLICATION(Sandbox)
+VORTICITY_APPLICATION(ModelViewer)
 
-bool Sandbox::onStartup(int argc, char **argv)
+bool ModelViewer::onStartup(int argc, char **argv)
 {
 	setTitle("Vorticity Engine");
 	setWidth(1024); setHeight(768);
 	setUpdateFrequency(50);
 	//setFullscreen(true);
-
 #ifdef _DEBUG
 	getConsole()->open();
 #endif
+	if(argc != 2) {
+		std::ostringstream os;
+		os << std::endl << "Usage:" << std::endl << argv[0] << " [model file]"
+		   << std::endl;
+		showMessage(os.str());
+		return false;
+	} else {
+		mModelPath = string(argv[1]);
+	}
 	return true;
 }
 
 NodeLC3 *lc3;
 
-bool Sandbox::onInitialize()
+bool ModelViewer::onInitialize()
 {
-	log() << "Arsen Project [Vorticity Engine]" << std::endl;
+	log() << "Model Viewer [Vorticity Engine]" << std::endl;
+	
+	device->clearColor(0.1f, 0.2f, 0.3f, 1.0f);
 
 	// Resources
 	Shader 	*phong_shader, *debug_shader;
@@ -47,15 +59,12 @@ bool Sandbox::onInitialize()
 	int frameBuffer = device->createFramebuffer(Vorticity::BufferFloat16, 4);
 	device->addBufferTarget(frameBuffer, Vorticity::ColorBuffer, NoFilter);
 
-//XXX: this is commented out for compatibility with X11 port
-//	font = getFontManager()->createFont("Tahoma");
-
 	// Scene graph
 	root = new Group("root");
 	NodeCamera &camera = gnew <NodeCamera>("cam1", root);
 	camera.bind(new RenderAsset(frameBuffer));
 	camera["zfar"] = 1000.0f;
-	camera["position"] = vec3(0.0f, 0.0f, 20.0f);
+	camera["position"] = vec3(0.0f, 3.0f, 20.0f);
 	camera.updateTransformation();
 
 	NodeShader &phong = gnew <NodeShader>("phong", root);
@@ -66,16 +75,14 @@ bool Sandbox::onInitialize()
 	NodeMaterial &material = gnew <NodeMaterial>("material1", root);
 	material["specular"] = vec3(1.0f, 1.0f, 1.0f);
 	material.connectTo(root);
-
-	NodeDummy &dum1 = gnew <NodeDummy>("dum1", root);
-	dum1["position"] = vec3(0.0f, 0.0f, 0.0f);
-	dum1.updateTransformation();
-
-	NodeDummy &dum2 = gnew <NodeDummy>("dum2", dum1);
-	dum2["position"] = vec3(5.0f, 0.0f, 0.0f);
-	dum2["scale"] = vec3(0.5f, 0.5f, 0.5f);
-	dum2.updateTransformation();
 	
+	StdMeshLoader meshLoader(mModelPath);
+	Mesh* mesh = new Mesh(meshLoader);
+	NodeMesh &nodeMesh = gnew <NodeMesh>("logo", root);
+	nodeMesh["position"] = vec3(0.0f, 0.0f, 0.0f);
+	nodeMesh.bind(mesh);
+	
+
 	// Default light
 	NodeLight &light1 = gnew <NodeLight>("light1", root);
 	light1["diffuse"] = vec3(1.0f, 1.0f, 1.0f);
@@ -91,8 +98,8 @@ bool Sandbox::onInitialize()
 	NodeLC3& rot_lc = gnew <NodeLC3>("rot_lc", root);
 	rot_lc.setLoop(true);
 	rot_lc.addKey(0.0f, vec3(0.0f, 0.0f, 0.0f));
-	rot_lc.addKey(5.0f, vec3(360.0f, 360.0f, 360.0f));
-	rot_lc.connectTo(&dum1, "rotation");
+	rot_lc.addKey(5.0f, vec3(0.0f, 360.0f, 0.0f));
+	rot_lc.connectTo(&nodeMesh, "rotation");
 	lc3 = &rot_lc;
 
 	ppfx = new PostProcessSimple(device);
@@ -106,20 +113,19 @@ bool Sandbox::onInitialize()
 	return true;
 }
 
-void Sandbox::onShutdown()
+void ModelViewer::onShutdown()
 {
 	delete root;
-//	getFontManager()->destroyFont(font);
 	getConsole()->close();
 }
 
-bool Sandbox::onUpdate()
+bool ModelViewer::onUpdate()
 {
 	EvaluateVisitor().traverse(root);
 	return true;
 }
 
-void Sandbox::onDraw()
+void ModelViewer::onDraw()
 {
 	device->viewport(0, 0, device->getScreenWidth(), device->getScreenHeight());
 	device->clear(Vorticity::ClearColorDepth);
@@ -130,12 +136,4 @@ void Sandbox::onDraw()
 
 	int frame = ppfx->render();
 	device->drawFeedbackBuffer(frame);
-
-//XXX: this is commented out for compatibility with X11 port
-/*
-	Overlay* overlay = device->getOverlay();
-	overlay->begin(8.0f, 6.0f);
-	overlay->bg(0.2f, 0.2f, 0.2f).usebg(true).margins(0.2f, 0.2f).bgalpha(0.5f).text(font, 0.1f, 0.2f, 0.2f, "Vorticity");
-	overlay->end();
-*/
 }

@@ -25,6 +25,7 @@
 #include<string>
 #include<fstream>
 #include<vector>
+#include<cstdint>
 
 #include<avr/avrmath.h>
 #include<avr/avrtexture.h>

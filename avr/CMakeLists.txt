@@ -55,7 +55,6 @@ add_library( avr SHARED
 set_target_properties(avr PROPERTIES PUBLIC_HEADER "${libavr_PUBLIC_HEADERS}" )
 
 install(TARGETS avr
-	LIBRARY		DESTINATION lib
+	LIBRARY		DESTINATION 	lib
+	PUBLIC_HEADER	DESTINATION	lib/avr
 )
-
-install(DIRECTORY include/avr DESTINATION include)

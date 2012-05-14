@@ -31,15 +31,15 @@ class Reference;
 class Renderer;
 class Resource;
 
-typedef std::map<string, AnyAttribute*>	AttributeMap;
-typedef std::vector<Node*>				NodeArray;
+typedef std::map<string, AnyAttribute*> AttributeMap;
+typedef std::vector<Node*>              NodeArray;
 typedef NodeArray::iterator             NodeIterator;
-typedef NodeArray::const_iterator		NodeConstIterator;
-typedef AttributeMap::const_iterator	AttributeIterator;
-typedef std::map<string, Node*>			NodeMap;
-typedef std::vector<Reference>			ReferenceArray;
-typedef ReferenceArray::const_iterator	ReferenceIterator;
-typedef std::list<AnyAttribute*>		AttributeList;
+typedef NodeArray::const_iterator       NodeConstIterator;
+typedef AttributeMap::const_iterator    AttributeIterator;
+typedef std::map<string, Node*>         NodeMap;
+typedef std::vector<Reference>          ReferenceArray;
+typedef ReferenceArray::const_iterator  ReferenceIterator;
+typedef std::list<AnyAttribute*>        AttributeList;
 
 #include "reference.h"
 

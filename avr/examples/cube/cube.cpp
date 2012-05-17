@@ -69,8 +69,8 @@ int main(int argc, char** argv)
 	vec3 normals[6] = {
 	};
 	std::vector<vec3> normalsVec = {
-		vec3{0, 0, -1}, vec3{1, 0, 0}, vec3{0, 1,  0},
-		vec3{-1, 0,  0}, vec3{ 0, -1, 0}, vec3{0,  0, 1}
+		vec3{0,  0, -1}, vec3{ 1,  0, 0}, vec3{0,  1,  0},
+		vec3{-1, 0,  0}, vec3{ 0, -1, 0}, vec3{0,  0,  1}
 	};
 	
 	std::vector<AVRFace> faces = {

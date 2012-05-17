@@ -19,41 +19,11 @@
 # along with Vorticity.  If not, see <http://www.gnu.org/licenses/>.
 # 
 
-set( libavr_SRCS
-	src/avrfile.cpp
-	src/avrmaterial.cpp
-	src/avrmesh.cpp
-	src/avrtexture.cpp
-	src/avrutil.cpp
+INCLUDE(${CMAKE_CURRENT_LIST_DIR}/FindPackageHandleStandardArgs.cmake)
+
+FIND_PATH(AVR_INCLUDE_DIR avr/avr++.h 
+  PATH_SUFFIXES include IL
+  DOC "The path the the directory that contains avr/avr++.h"
 )
 
-set( libavr_PUBLIC_HEADERS
-	include/avr/avrfile.h
-	include/avr/avrmaterial.h
-	include/avr/avrmesh.h
-	include/avr/avrtexture.h
-	include/avr/avrmath.h
-	include/avr/avr++.h
-)
 
-set( libavr_PRIVATE_HEADERS
-	include/avr/avrutil.h
-)
-
-include_directories( include/avr include src )
-
-add_subdirectory(examples)
-
-add_definitions( -DAVR_COMPILATION )
-add_library( avr SHARED
-	${libavr_SRCS}
-	${libavr_PUBLIC_HEADERS}
-	${libavr_PRIVATE_HEADERS}
-)
-
-set_target_properties(avr PROPERTIES PUBLIC_HEADER "${libavr_PUBLIC_HEADERS}" )
-
-install(TARGETS avr
-	LIBRARY		DESTINATION 	lib
-	PUBLIC_HEADER	DESTINATION	lib/avr
-)

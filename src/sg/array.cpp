@@ -72,26 +72,6 @@ bool ArrayAttribute::setAt(const size_t index, Vorticity::AnyAttribute *attrib)
 	return true;
 }
 
-inline void ArrayAttribute::push(Vorticity::AnyAttribute *attrib)
-{ values.push_back(attrib); }
-
-inline bool ArrayAttribute::pop(Vorticity::AnyAttribute *attrib)
-{
-	if(values.size() == 0)
-		return false;
-	attrib = values.back();
-	values.pop_back();
-	return true;
-}
-
-inline bool ArrayAttribute::pop()
-{
-	if(values.size() == 0)
-		return false;
-	delete values.back();
-	values.pop_back();
-	return true;
-}
 
 bool ArrayAttribute::remove(const size_t index)
 {

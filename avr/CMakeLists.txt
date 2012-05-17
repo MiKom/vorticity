@@ -55,5 +55,5 @@ set_target_properties(avr PROPERTIES PUBLIC_HEADER "${libavr_PUBLIC_HEADERS}" )
 
 install(TARGETS avr
 	LIBRARY		DESTINATION 	lib
-	PUBLIC_HEADER	DESTINATION	lib/avr
+	PUBLIC_HEADER	DESTINATION	include/avr
 )

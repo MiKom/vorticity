@@ -51,6 +51,9 @@ endChunk(std::ostream& os,
 	os.seekp(sizePos);
 	os.write((char*) &chunkSize, 4);
 	os.seekp(endPos);
+	if(os.tellp() % 2 == 1){ //Next chunk should always start on even byte
+		os.put(0xFF);
+	}
 }
 
 } //AVR

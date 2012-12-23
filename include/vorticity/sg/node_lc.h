@@ -60,7 +60,7 @@ public:
 		//if(!getStatus()) return;
 
 		float frameTime = this->getTime();
-		if(!getKey(frameTime, &index, &time[0], &value[0]))
+		if(!this->getKey(frameTime, &index, &time[0], &value[0]))
 			return;
 
 		ArrayAttribute& keys = (ArrayAttribute&)this->getAttrib("keys");
@@ -70,7 +70,7 @@ public:
 			return;
 		}
 		
-		getKey(index+1, &time[1], &value[1]);
+		this->getKey(index+1, &time[1], &value[1]);
 		// Calculate t value
 		float t = (time[1] - frameTime) / (time[1] - time[0]);
 		// Linear interpolation between value[0] and value[1]

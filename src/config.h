@@ -60,7 +60,7 @@
 #	endif
 #endif
 
-#if __GNUC_VERSION__ < 407000
+#if __GNUC_VERSION__ < 40700
 #	define steady_clock monotonic_clock
 #endif
 

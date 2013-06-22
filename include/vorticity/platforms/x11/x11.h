@@ -49,7 +49,7 @@ protected:
 	  This variable keeps moment in which program started. It's set in
 	  initialize()
 	 */
-	std::chrono::monotonic_clock::time_point mProgramStart;
+	std::chrono::steady_clock::time_point mProgramStart;
 protected:
 	bool initGraphics();
 	void destroyGraphics();

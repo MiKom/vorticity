@@ -21,7 +21,7 @@ bool X11_Application::initialize()
 	if(!initGraphics()) {
 		throw std::runtime_error("Failed to create GLX window");
 	}
-	mProgramStart = std::chrono::monotonic_clock::now();
+	mProgramStart = std::chrono::steady_clock::now();
 	return true;
 }
 
@@ -256,7 +256,7 @@ int X11_Application::main(int argc, char **argv, Application *theApp)
 time_t X11_Application::getTime() const
 {
 	using namespace std::chrono;
-	monotonic_clock::time_point now(monotonic_clock::now());
+	steady_clock::time_point now(steady_clock::now());
 	milliseconds elapsed = duration_cast<milliseconds>(now - mProgramStart);
 	return static_cast<time_t>(elapsed.count());
 }

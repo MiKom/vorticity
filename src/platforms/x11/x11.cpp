@@ -84,7 +84,7 @@ bool X11_Application::initGraphics()
 					 vi->visual, AllocNone);
 	wAttr.background_pixmap = None;
 	wAttr.border_pixel = 0;
-	wAttr.event_mask = StructureNotifyMask;
+	wAttr.event_mask = StructureNotifyMask | KeyPressMask | KeyReleaseMask;
 
 	//TODO: put initial windows position somewhere else.
 	mWindow = XCreateWindow(mDisplay, RootWindow(mDisplay, vi->screen),
@@ -211,7 +211,20 @@ int X11_Application::run()
 	if(threaded) {
 		updateThread = std::thread(&X11_Application::updateProc, this);
 	}
+	XEvent event;
 	while(true) {
+		
+		while(XCheckWindowEvent(mDisplay, mWindow, KeyPressMask | KeyReleaseMask, &event) == True) {
+			switch(event.type) {
+				case KeyPress :
+					std::cout << "Pressed key: " << event.xkey.keycode << std::endl;
+					break;
+				case KeyRelease :
+					std::cout << "Released key: " << event.xkey.keycode << std::endl;
+					break;
+			}
+		}
+		
 		if(threaded) {
 			mMutex.lock();
 		} else {

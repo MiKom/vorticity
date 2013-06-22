@@ -31,6 +31,7 @@ namespace AVR
 class vec3
 {
 public:
+	//data
 	union {
 		struct { float x; float y; float z; };
 		struct { float r; float g; float b; };
@@ -41,6 +42,7 @@ public:
 class vec2
 {
 public:
+	//data
 	union {
 		struct { float x; float y; };
 		struct { float u; float v; };

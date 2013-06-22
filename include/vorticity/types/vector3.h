@@ -291,21 +291,27 @@ public:
 	 * Reads string representation of three IEEE 754 floating point numbers
 	 * (x,y,z)
 	 * from the stream.
+	 * TODO: it's bad design and it should be done differently
 	 * @param os target output stream
 	 */
 	friend std::istream& operator>>( std::istream& is, vector3& v){
-		is >> v.x >> v.y >> v.z;
+		is.ignore(1,'(');
+		is >> v.x;
+		is.ignore(1,',');
+		is >> v.y;
+		is.ignore(1,',');
+		is >> v.z;
+		is.ignore(1,')');
 		return is;
 	}
 
 	/**
-	* Reads string representation of three IEEE 754 floating point numbers
-	* (x,y,z)
-	* from the stream.
+	* Writes string representation of three IEEE 754 floating point numbers
+	* (x,y,z) to the stream.
 	* @param os target output stream
 	*/
 	friend std::ostream& operator<<( std::ostream& os, const vector3& v){
-		os << v.x << v.y << v.z;
+		os << "(" << v.x << ", " << v.y << ", " << v.z << ")";
 		return os;
 	}
 

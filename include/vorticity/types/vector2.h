@@ -284,24 +284,30 @@ public:
 		fwrite(cell, sizeof(cell), 1, file);
 		return true;
 	}
-
+	
 	/**
-	 * Reads string representation of two IEEE 754 floating point numbers
-	 * (x,y) from the stream.
+	 * Reads string representation of three IEEE 754 floating point numbers
+	 * (x,y)
+	 * from the stream.
+	 * TODO: it's bad design and it should be done differently
 	 * @param os target output stream
 	 */
 	friend std::istream& operator>>( std::istream& is, vector2& v){
-		is >> v.x >> v.y;
+		is.ignore(1,'(');
+		is >> v.x;
+		is.ignore(1,',');
+		is >> v.y;
+		is.ignore(1,')');
 		return is;
 	}
-
+	
 	/**
 	 * Writes string representation of two IEEE 754 floating point numbers (x,y)
 	 * to the stream.
 	 * @param os target output stream
 	 */
 	friend std::ostream& operator<<( std::ostream& os, const vector2& v){
-		os << v.x << v.y;
+		os << "(" << v.x << "," << v.y << ")";
 		return os;
 	}
 

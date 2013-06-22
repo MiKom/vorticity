@@ -351,26 +351,34 @@ public:
 		fwrite(cell, sizeof(cell), 1, file);
 		return true;
 	}
-
+	
 	/**
-	 * Reads string representation of four IEEE 754 floating point numbers
+	 * Reads string representation of three IEEE 754 floating point numbers
 	 * (x,y,z,w)
 	 * from the stream.
+	 * TODO: it's bad design and it should be done differently
 	 * @param os target output stream
 	 */
 	friend std::istream& operator>>( std::istream& is, vector4& v){
-		is >> v.x >> v.y >> v.z >> v.w;
+		is.ignore(1,'(');
+		is >> v.x;
+		is.ignore(1,',');
+		is >> v.y;
+		is.ignore(1,',');
+		is >> v.z;
+		is.ignore(1,',');
+		is >> v.w;
+		is.ignore(1,')');
 		return is;
 	}
 
 	/**
-	* Reads string representation of four IEEE 754 floating point numbers
-	* (x,y,z,w)
-	* from the stream.
+	* Writes string representation of four IEEE 754 floating point numbers
+	* (x,y,z,w) to the stream.
 	* @param os target output stream
 	*/
 	friend std::ostream& operator<<( std::ostream& os, const vector4& v){
-		os << v.x << v.y << v.z << v.w;
+		os << "(" << v.x << "," << v.y << "," << v.z << "," << v.w << ")";
 		return os;
 	}
 
